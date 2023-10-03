@@ -8,6 +8,7 @@ Group 07
 * Cyrus Shakya : 1157720
 * Anup Saud    : 1149683
 * Rajeev Sharma : 1148536
+* Nabin Pun : 1164717
 
 ## App Name
 MedWise

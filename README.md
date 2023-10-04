@@ -32,7 +32,7 @@ MedWise
 - [x] Export Medicine History Data: Export your medication history data.
 - [x] Organize, Group, Tag, Filter, or Sort Medicine: Effectively manage your medication list.
 - [x] Family Sharing: Share your medication intake logs with family members.
-- [x] Add List Details using the Mobile Camera: Extract medication details by taking pictures of prescription labels or barcodes.
+- [x] Add List Details using the Mobile Camera: Extract medication details by taking pictures of prescription labels.
 
 **Appointment Management:**
 - [x] Add Appointment Alert: Schedule and receive alerts for medical appointments.

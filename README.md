@@ -11,10 +11,10 @@ Group 07
 * Nabin Pun : 1164717
 
 ## App Name
-MedWise
+MedWise 
 
 ## App Description
-MedWise is your comprehensive medication management solution, designed to simplify your healthcare journey. With user-friendly profile management tools, you can effortlessly create, update, and customize your preferences, ensuring a personalized experience. Seamlessly add and organize your medications, track doses, set reminders, and maintain a detailed history of your medication intake. Stay on top of your health with appointment alerts and find nearby pharmacies effortlessly. MedWise also prioritizes accessibility, featuring voice-over text for visually impaired people, while providing user assistance through random tips and push notifications. Take control of your health with MedWise, the all-in-one medicine tracker.
+MedWise, an iOS application designed for medication management solution. With user-friendly profile management tools, you can effortlessly create, update, and customize your preferences, ensuring a personalized experience. Seamlessly add and organize your medications, track doses, set reminders, and maintain a detailed history of your medication intake. Stay on top of your health with appointment alerts and find nearby pharmacies effortlessly. MedWise also prioritizes accessibility, featuring voice-over text for visually impaired people, while providing user assistance through random tips and push notifications. Take control of your health with MedWise, the all-in-one medicine tracker.
 
 ## List of App Features
 

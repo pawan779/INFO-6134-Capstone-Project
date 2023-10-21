@@ -9,6 +9,12 @@ import SwiftUI
 
 @main
 struct MedWiseApp: App {
+    let dbHelper = DatabaseHelper.shared
+      
+    
+      init() {
+          dbHelper.createTableIfNotExists()
+      }
     var body: some Scene {
         WindowGroup {
             ContentView()

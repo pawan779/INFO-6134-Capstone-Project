@@ -8,14 +8,39 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var selectedTab: Tab = .medication
+    
+    init() {
+       UITabBar.appearance().isHidden = true
+    }
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
+    
+
+        ZStack{
+           VStack {
+             TabView(selection: $selectedTab){
+               ForEach(Tab.allCases, id: \.rawValue) { tab in
+                   HStack {
+                       if tab == .medication {
+                           MedicationListView()
+                       } else if tab == .history {
+                           SupportView()
+                       } else {
+                           ProfileView()
+                       }
+                   }
+               
+                .tag(tab)
+              }
+             }
+           }
+           VStack {
+             Spacer()
+             MyTabBar(selectedTab: $selectedTab)
+            }
+          }
+        
     }
 }
 

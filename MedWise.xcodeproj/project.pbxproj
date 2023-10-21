@@ -7,6 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FDB87D2C2AE4200500B9B6A5 /* DatabaseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB87D2B2AE4200500B9B6A5 /* DatabaseHelper.swift */; };
+		FDB87D2E2AE4201D00B9B6A5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB87D2D2AE4201D00B9B6A5 /* User.swift */; };
+		FDB87D302AE4202D00B9B6A5 /* Medication.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB87D2F2AE4202D00B9B6A5 /* Medication.swift */; };
+		FDB87D322AE4203C00B9B6A5 /* Appointment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB87D312AE4203C00B9B6A5 /* Appointment.swift */; };
+		FDB87D342AE4205500B9B6A5 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB87D332AE4205500B9B6A5 /* NotificationManager.swift */; };
+		FDB87D362AE420D400B9B6A5 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB87D352AE420D400B9B6A5 /* ProfileViewModel.swift */; };
+		FDB87D382AE420E200B9B6A5 /* MedicationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB87D372AE420E200B9B6A5 /* MedicationViewModel.swift */; };
+		FDB87D3A2AE420FD00B9B6A5 /* AppointmentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB87D392AE420FD00B9B6A5 /* AppointmentViewModel.swift */; };
+		FDB87D3E2AE4250800B9B6A5 /* MedicationListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB87D3D2AE4250800B9B6A5 /* MedicationListView.swift */; };
+		FDB87D432AE4255000B9B6A5 /* AppointmentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB87D422AE4255000B9B6A5 /* AppointmentListView.swift */; };
+		FDB87D482AE4259600B9B6A5 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB87D472AE4259600B9B6A5 /* ProfileView.swift */; };
+		FDB87D4A2AE425B400B9B6A5 /* SupportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB87D492AE425B400B9B6A5 /* SupportView.swift */; };
 		FDC90BBB2AD8D684005A9A1E /* MedWiseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC90BBA2AD8D684005A9A1E /* MedWiseApp.swift */; };
 		FDC90BBD2AD8D684005A9A1E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC90BBC2AD8D684005A9A1E /* ContentView.swift */; };
 		FDC90BBF2AD8D685005A9A1E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FDC90BBE2AD8D685005A9A1E /* Assets.xcassets */; };
@@ -14,6 +26,18 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FDB87D2B2AE4200500B9B6A5 /* DatabaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseHelper.swift; sourceTree = "<group>"; };
+		FDB87D2D2AE4201D00B9B6A5 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		FDB87D2F2AE4202D00B9B6A5 /* Medication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Medication.swift; sourceTree = "<group>"; };
+		FDB87D312AE4203C00B9B6A5 /* Appointment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appointment.swift; sourceTree = "<group>"; };
+		FDB87D332AE4205500B9B6A5 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		FDB87D352AE420D400B9B6A5 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		FDB87D372AE420E200B9B6A5 /* MedicationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicationViewModel.swift; sourceTree = "<group>"; };
+		FDB87D392AE420FD00B9B6A5 /* AppointmentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentViewModel.swift; sourceTree = "<group>"; };
+		FDB87D3D2AE4250800B9B6A5 /* MedicationListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicationListView.swift; sourceTree = "<group>"; };
+		FDB87D422AE4255000B9B6A5 /* AppointmentListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentListView.swift; sourceTree = "<group>"; };
+		FDB87D472AE4259600B9B6A5 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		FDB87D492AE425B400B9B6A5 /* SupportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportView.swift; sourceTree = "<group>"; };
 		FDC90BB72AD8D684005A9A1E /* MedWise.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MedWise.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDC90BBA2AD8D684005A9A1E /* MedWiseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedWiseApp.swift; sourceTree = "<group>"; };
 		FDC90BBC2AD8D684005A9A1E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -35,6 +59,7 @@
 		FDB87D252AE40E9800B9B6A5 /* Medication */ = {
 			isa = PBXGroup;
 			children = (
+				FDB87D3D2AE4250800B9B6A5 /* MedicationListView.swift */,
 			);
 			path = Medication;
 			sourceTree = "<group>";
@@ -42,6 +67,9 @@
 		FDB87D262AE4185400B9B6A5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				FDB87D442AE4255D00B9B6A5 /* Support */,
+				FDB87D3C2AE4211500B9B6A5 /* Appointment */,
+				FDB87D3B2AE4210700B9B6A5 /* Profile */,
 				FDB87D252AE40E9800B9B6A5 /* Medication */,
 			);
 			path = Views;
@@ -50,6 +78,9 @@
 		FDB87D272AE4188300B9B6A5 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				FDB87D352AE420D400B9B6A5 /* ProfileViewModel.swift */,
+				FDB87D372AE420E200B9B6A5 /* MedicationViewModel.swift */,
+				FDB87D392AE420FD00B9B6A5 /* AppointmentViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -57,6 +88,7 @@
 		FDB87D282AE4188E00B9B6A5 /* Database */ = {
 			isa = PBXGroup;
 			children = (
+				FDB87D2B2AE4200500B9B6A5 /* DatabaseHelper.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -64,6 +96,7 @@
 		FDB87D292AE4189B00B9B6A5 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				FDB87D332AE4205500B9B6A5 /* NotificationManager.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -71,8 +104,35 @@
 		FDB87D2A2AE41CFB00B9B6A5 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				FDB87D2D2AE4201D00B9B6A5 /* User.swift */,
+				FDB87D2F2AE4202D00B9B6A5 /* Medication.swift */,
+				FDB87D312AE4203C00B9B6A5 /* Appointment.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		FDB87D3B2AE4210700B9B6A5 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				FDB87D472AE4259600B9B6A5 /* ProfileView.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		FDB87D3C2AE4211500B9B6A5 /* Appointment */ = {
+			isa = PBXGroup;
+			children = (
+				FDB87D422AE4255000B9B6A5 /* AppointmentListView.swift */,
+			);
+			path = Appointment;
+			sourceTree = "<group>";
+		};
+		FDB87D442AE4255D00B9B6A5 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				FDB87D492AE425B400B9B6A5 /* SupportView.swift */,
+			);
+			path = Support;
 			sourceTree = "<group>";
 		};
 		FDC90BAE2AD8D684005A9A1E = {
@@ -185,7 +245,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FDB87D302AE4202D00B9B6A5 /* Medication.swift in Sources */,
+				FDB87D2E2AE4201D00B9B6A5 /* User.swift in Sources */,
+				FDB87D432AE4255000B9B6A5 /* AppointmentListView.swift in Sources */,
 				FDC90BBD2AD8D684005A9A1E /* ContentView.swift in Sources */,
+				FDB87D322AE4203C00B9B6A5 /* Appointment.swift in Sources */,
+				FDB87D382AE420E200B9B6A5 /* MedicationViewModel.swift in Sources */,
+				FDB87D342AE4205500B9B6A5 /* NotificationManager.swift in Sources */,
+				FDB87D3A2AE420FD00B9B6A5 /* AppointmentViewModel.swift in Sources */,
+				FDB87D3E2AE4250800B9B6A5 /* MedicationListView.swift in Sources */,
+				FDB87D2C2AE4200500B9B6A5 /* DatabaseHelper.swift in Sources */,
+				FDB87D362AE420D400B9B6A5 /* ProfileViewModel.swift in Sources */,
+				FDB87D482AE4259600B9B6A5 /* ProfileView.swift in Sources */,
+				FDB87D4A2AE425B400B9B6A5 /* SupportView.swift in Sources */,
 				FDC90BBB2AD8D684005A9A1E /* MedWiseApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

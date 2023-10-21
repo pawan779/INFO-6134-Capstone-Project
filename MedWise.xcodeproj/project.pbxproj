@@ -32,6 +32,49 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FDB87D252AE40E9800B9B6A5 /* Medication */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Medication;
+			sourceTree = "<group>";
+		};
+		FDB87D262AE4185400B9B6A5 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				FDB87D252AE40E9800B9B6A5 /* Medication */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		FDB87D272AE4188300B9B6A5 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		FDB87D282AE4188E00B9B6A5 /* Database */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
+		FDB87D292AE4189B00B9B6A5 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		FDB87D2A2AE41CFB00B9B6A5 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		FDC90BAE2AD8D684005A9A1E = {
 			isa = PBXGroup;
 			children = (
@@ -51,6 +94,11 @@
 		FDC90BB92AD8D684005A9A1E /* MedWise */ = {
 			isa = PBXGroup;
 			children = (
+				FDB87D282AE4188E00B9B6A5 /* Database */,
+				FDB87D2A2AE41CFB00B9B6A5 /* Models */,
+				FDB87D292AE4189B00B9B6A5 /* Utilities */,
+				FDB87D272AE4188300B9B6A5 /* ViewModels */,
+				FDB87D262AE4185400B9B6A5 /* Views */,
 				FDC90BBA2AD8D684005A9A1E /* MedWiseApp.swift */,
 				FDC90BBC2AD8D684005A9A1E /* ContentView.swift */,
 				FDC90BBE2AD8D685005A9A1E /* Assets.xcassets */,

@@ -10,7 +10,8 @@ import SwiftUI
 struct MedicationFrequencyView: View {
     
     @State var viewModel: MedicationListViewModel
-    
+    var medicineName: String
+    @Environment(\.presentationMode) var presentationMode
     var body: some View {
         
         NavigationView{
@@ -34,33 +35,33 @@ struct MedicationFrequencyView: View {
                         List{
                             ForEach(viewModel.frequencyOptions, id:\.self){data in
                                 NavigationLink(data) {
-                                    SupportView()
+                                    MedicationReminderView(selectedFrequency: data, medicineName: medicineName, viewModel: MedicationListViewModel(selectedFrequency: data))
                                 }
+                                .navigationBarBackButtonHidden(true)
                             }
-                        
+                            
                         }
                         .frame(maxHeight: 250)
                         .cornerRadius(30.0)
                         
-                        .background(Color.blue)
-                        
                     }
-                
+                    
                     Spacer()
                     
                 }
                 .padding()
                 .frame(width: geometry.size.width, height: geometry.size.height)
-                .background(Color.blue)
+                .background(Color.customBackgroundColor)
                 
             }
-       
+               
         }
+
     }
     
 }
 
 
 #Preview {
-    MedicationFrequencyView(viewModel: MedicationListViewModel())
+    MedicationFrequencyView(viewModel: MedicationListViewModel(selectedFrequency: ""), medicineName: "")
 }

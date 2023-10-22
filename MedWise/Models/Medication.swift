@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+
+struct Medication: Identifiable{
+    var id: Int
+    var medicineName: String
+    var reminderTime: [Date]
+
+}

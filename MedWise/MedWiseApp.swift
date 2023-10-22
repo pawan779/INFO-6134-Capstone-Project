@@ -11,6 +11,7 @@ import SwiftUI
 struct MedWiseApp: App {
     let dbHelper = DatabaseHelper.shared
       
+
     
       init() {
           dbHelper.createTableIfNotExists()

@@ -13,4 +13,5 @@ struct User {
     var sex: String
     var height: Double
     var weight: Double
+    var medication: [Medication]
 }

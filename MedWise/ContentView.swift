@@ -12,18 +12,17 @@ struct ContentView: View {
     
     init() {
        UITabBar.appearance().isHidden = true
+        DatabaseHelper.shared.createTableIfNotExists()
     }
 
     var body: some View {
-    
-
         ZStack{
            VStack {
              TabView(selection: $selectedTab){
                ForEach(Tab.allCases, id: \.rawValue) { tab in
                    HStack {
                        if tab == .medication {
-                           MedicationListView()
+                           MedicationListView(viewModel: MedicationListViewModel(selectedFrequency: ""))
                        } else if tab == .history {
                            SupportView()
                        } else {
@@ -40,8 +39,13 @@ struct ContentView: View {
              MyTabBar(selectedTab: $selectedTab)
             }
           }
+     
         
     }
+}
+
+extension Color {
+    static let customBackgroundColor = Color(red: 0.2, green: 0.4, blue: 0.6)
 }
 
 #Preview {

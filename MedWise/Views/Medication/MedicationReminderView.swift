@@ -8,11 +8,57 @@
 import SwiftUI
 
 struct MedicationReminderView: View {
+  
+    var selectedFrequency: String
+    var medicineName: String
+    @State var viewModel : MedicationListViewModel
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+            GeometryReader { geometry in
+                VStack{
+                    HStack{
+                        
+                        Image(systemName: "bell.fill")
+                            .font(.largeTitle)
+                            .foregroundColor(.white)
+                        
+                        Text("When do you want to be notified?")
+                            .foregroundColor(.white)
+                            .font(.title)
+                            .padding()
+                    }
+                    
+                    ForEach(viewModel.selectedTimes.indices, id: \.self) { index in
+                        DatePicker("Reminder Time (\(index + 1))", selection: $viewModel.selectedTimes[index], displayedComponents: .hourAndMinute)
+                           
+                    }
+                    .padding()
+                    .background(Color.white)
+                    .cornerRadius(10.0)
+                    
+                    Spacer()
+                    
+                    Button(action: {  viewModel.closeAddMedication()
+                        addMedicine()
+                    }, label: {
+                        Text("Done")
+                            .foregroundColor(.white)
+                            .font(.headline)
+                    })
+                    
+                }.navigationBarBackButtonHidden(true)
+                    .padding()
+                    .frame(width: geometry.size.width, height: geometry.size.height)
+                    .background(Color.customBackgroundColor)
+                
+            
+            }
+    }
+    func addMedicine(){
+        viewModel.addMedication(medicineName: medicineName, reminderTime: viewModel.selectedTimes)
     }
 }
 
 #Preview {
-    MedicationReminderView()
+    MedicationReminderView( selectedFrequency: "", medicineName: "", viewModel: MedicationListViewModel(selectedFrequency: "Twice a day"))
 }

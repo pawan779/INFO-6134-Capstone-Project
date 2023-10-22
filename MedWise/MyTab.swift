@@ -33,21 +33,22 @@ struct MyTabBar: View {
              ForEach(Tab.allCases, id: \.rawValue) { tab in
                  Spacer()
                  Image(systemName: selectedTab == tab ? fillImage : unfillImage(tab: tab))
-                     .scaleEffect(selectedTab == tab ? 1.3 : 1.0)
+                     .scaleEffect(selectedTab == tab ? 2 : 1.0)
                      .foregroundColor(selectedTab == tab ? .red : .gray)
                      .font(.system(size: 25))
                      .onTapGesture {
-                          withAnimation(.easeIn(duration: 0.1)){
+                         withAnimation(.easeOut(duration: 0.3)){
                               selectedTab = tab
                           }
                      }
+                    
                  Spacer()
                }
             }
             .frame(width: nil, height: 60)
-            .background(.thinMaterial)
             .cornerRadius(10)
        }
+         
     }
 }
 

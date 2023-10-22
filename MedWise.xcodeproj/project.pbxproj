@@ -21,6 +21,9 @@
 		FDB87D4A2AE425B400B9B6A5 /* SupportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB87D492AE425B400B9B6A5 /* SupportView.swift */; };
 		FDB87D532AE4567300B9B6A5 /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = FDB87D522AE4567300B9B6A5 /* SQLite */; };
 		FDB87D552AE4762F00B9B6A5 /* MyTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB87D542AE4762F00B9B6A5 /* MyTab.swift */; };
+		FDB87D572AE4A6F400B9B6A5 /* AddMedicationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB87D562AE4A6F400B9B6A5 /* AddMedicationView.swift */; };
+		FDB87D592AE4BC0800B9B6A5 /* MedicationFrequencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB87D582AE4BC0800B9B6A5 /* MedicationFrequencyView.swift */; };
+		FDB87D5D2AE59DC400B9B6A5 /* MedicationReminderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB87D5C2AE59DC400B9B6A5 /* MedicationReminderView.swift */; };
 		FDC90BBB2AD8D684005A9A1E /* MedWiseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC90BBA2AD8D684005A9A1E /* MedWiseApp.swift */; };
 		FDC90BBD2AD8D684005A9A1E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC90BBC2AD8D684005A9A1E /* ContentView.swift */; };
 		FDC90BBF2AD8D685005A9A1E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FDC90BBE2AD8D685005A9A1E /* Assets.xcassets */; };
@@ -41,6 +44,9 @@
 		FDB87D472AE4259600B9B6A5 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		FDB87D492AE425B400B9B6A5 /* SupportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportView.swift; sourceTree = "<group>"; };
 		FDB87D542AE4762F00B9B6A5 /* MyTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTab.swift; sourceTree = "<group>"; };
+		FDB87D562AE4A6F400B9B6A5 /* AddMedicationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMedicationView.swift; sourceTree = "<group>"; };
+		FDB87D582AE4BC0800B9B6A5 /* MedicationFrequencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicationFrequencyView.swift; sourceTree = "<group>"; };
+		FDB87D5C2AE59DC400B9B6A5 /* MedicationReminderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicationReminderView.swift; sourceTree = "<group>"; };
 		FDC90BB72AD8D684005A9A1E /* MedWise.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MedWise.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDC90BBA2AD8D684005A9A1E /* MedWiseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedWiseApp.swift; sourceTree = "<group>"; };
 		FDC90BBC2AD8D684005A9A1E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -64,6 +70,9 @@
 			isa = PBXGroup;
 			children = (
 				FDB87D3D2AE4250800B9B6A5 /* MedicationListView.swift */,
+				FDB87D562AE4A6F400B9B6A5 /* AddMedicationView.swift */,
+				FDB87D582AE4BC0800B9B6A5 /* MedicationFrequencyView.swift */,
+				FDB87D5C2AE59DC400B9B6A5 /* MedicationReminderView.swift */,
 			);
 			path = Medication;
 			sourceTree = "<group>";
@@ -259,17 +268,20 @@
 				FDB87D302AE4202D00B9B6A5 /* Medication.swift in Sources */,
 				FDB87D2E2AE4201D00B9B6A5 /* User.swift in Sources */,
 				FDB87D432AE4255000B9B6A5 /* AppointmentListView.swift in Sources */,
+				FDB87D572AE4A6F400B9B6A5 /* AddMedicationView.swift in Sources */,
 				FDC90BBD2AD8D684005A9A1E /* ContentView.swift in Sources */,
 				FDB87D322AE4203C00B9B6A5 /* Appointment.swift in Sources */,
 				FDB87D382AE420E200B9B6A5 /* MedicationViewModel.swift in Sources */,
 				FDB87D342AE4205500B9B6A5 /* NotificationManager.swift in Sources */,
 				FDB87D3A2AE420FD00B9B6A5 /* AppointmentViewModel.swift in Sources */,
+				FDB87D5D2AE59DC400B9B6A5 /* MedicationReminderView.swift in Sources */,
 				FDB87D3E2AE4250800B9B6A5 /* MedicationListView.swift in Sources */,
 				FDB87D2C2AE4200500B9B6A5 /* DatabaseHelper.swift in Sources */,
 				FDB87D552AE4762F00B9B6A5 /* MyTab.swift in Sources */,
 				FDB87D362AE420D400B9B6A5 /* ProfileViewModel.swift in Sources */,
 				FDB87D482AE4259600B9B6A5 /* ProfileView.swift in Sources */,
 				FDB87D4A2AE425B400B9B6A5 /* SupportView.swift in Sources */,
+				FDB87D592AE4BC0800B9B6A5 /* MedicationFrequencyView.swift in Sources */,
 				FDC90BBB2AD8D684005A9A1E /* MedWiseApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

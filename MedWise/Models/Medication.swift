@@ -14,3 +14,13 @@ struct Medication: Identifiable{
     var reminderTime: [Date]
 
 }
+
+struct ReminderTime {
+    var time: Date
+    var isTaken: Bool
+
+    init(time: Date, isTaken: Bool = false) {
+        self.time = time
+        self.isTaken = isTaken
+    }
+}

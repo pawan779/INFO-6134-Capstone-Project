@@ -9,38 +9,39 @@ import SwiftUI
 
 struct MedicationListView: View {
     
-    @State var viewModel: MedicationListViewModel
+    @ObservedObject var viewModel = MedicationListViewModel()
     
    
     
     func fetchMedicine(){
         viewModel.fetchMedications()
+       
     }
     
     var body: some View {
         
-        VStack{
-            List{
-                ForEach(viewModel.medications){medicine in
-                    Text("\(medicine.medicineName)")
-                        .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
+        ZStack{
+            Color.customBackgroundColor
+                .ignoresSafeArea()
+            VStack{
+                Button(action: {
+                    viewModel.toggleAddMedication()
+                    
+                }, label: {
+                    Text("Add Medication")
+                })
+       
+               
+                .sheet(isPresented: $viewModel.isPresented) {
+                    AddMedicationView(viewModel:viewModel)
                 }
-                
             }
             
-            Button(action: {
-                viewModel.toggleAddMedication()
-                
-            }, label: {
-                Text("Add Medication")
-            })
-            .sheet(isPresented: $viewModel.showAddMedication) {
-                AddMedicationView(viewModel: MedicationListViewModel(selectedFrequency: ""))
-            }
         }
+       
     }
 }
 
 #Preview {
-    MedicationListView(viewModel: MedicationListViewModel(selectedFrequency: ""))
+    MedicationListView(viewModel: MedicationListViewModel())
 }

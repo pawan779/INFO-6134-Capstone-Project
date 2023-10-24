@@ -6,45 +6,27 @@
 //
 
 import SwiftUI
-import Observation
 
-
-
-@Observable
-final class MedicationListViewModel: ObservableObject{
+ class MedicationListViewModel: ObservableObject {
     
-    var showAddMedication: Bool = false
-    var showAddMedicationNotify: Bool = false
-    var medicineName: String = ""
-    var selectedFrequency: String = "Once a day"
-    var selectedTimes: [Date]
-    let frequencyOptions = ["Once a day", "Twice a day", "Three times a day", "Four times a day"]
-    var medications: [Medication] = []
+   @Published var isPresented: Bool = false
+     @Published var showAddMedicationNotify: Bool = false
+     @Published var medicineName: String = ""
+      @Published var selectedFrequency: Int = 1
+     @Published var selectedTimes: [Date] = [Date()]
+     let frequencyOptions = ["Once a day", "Twice a day", "Three times a day", "Four times a day"]
+     @Published var medications: [Medication] = []
+     
+  
     
     
     func toggleAddMedication(){
-        showAddMedication = true
+        isPresented.toggle()
         
     }
     
-    func closeAddMedication(){
-        showAddMedication = false
-    }
-    
- 
-    internal init(selectedFrequency: String) {
-        
-        var numberOfTimes: Int = 4
 
-        if selectedFrequency == frequencyOptions[0] {
-            numberOfTimes = 1
-        } else if selectedFrequency == frequencyOptions[1] {
-            numberOfTimes = 2
-        } else if selectedFrequency == frequencyOptions[2] {
-            numberOfTimes = 3
-        }
-
-        selectedTimes = Array(repeating: Date(), count: numberOfTimes)
+     internal init() {
         
         fetchMedications()
     

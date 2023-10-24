@@ -29,12 +29,13 @@ struct MyTabBar: View {
     
      var body: some View {
         VStack {
+            
            HStack {
              ForEach(Tab.allCases, id: \.rawValue) { tab in
                  Spacer()
                  Image(systemName: selectedTab == tab ? fillImage : unfillImage(tab: tab))
-                     .scaleEffect(selectedTab == tab ? 2 : 1.0)
-                     .foregroundColor(selectedTab == tab ? .red : .gray)
+                     .scaleEffect(selectedTab == tab ? 1.25 : 1.0)
+                     .foregroundColor(selectedTab == tab ? .white : .gray)
                      .font(.system(size: 25))
                      .onTapGesture {
                          withAnimation(.easeOut(duration: 0.3)){
@@ -45,7 +46,8 @@ struct MyTabBar: View {
                  Spacer()
                }
             }
-            .frame(width: nil, height: 60)
+            .frame(width: nil, height: 50)
+            .background(Color.customBackgroundColor)
             .cornerRadius(10)
        }
          

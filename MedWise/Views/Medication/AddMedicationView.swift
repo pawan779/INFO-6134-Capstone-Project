@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct AddMedicationView: View {
-    @Environment(\.presentationMode) var presentationMode
-    @State var viewModel: MedicationListViewModel
+   
+    @ObservedObject var viewModel: MedicationListViewModel
     
    
     var body: some View {
@@ -37,7 +37,7 @@ struct AddMedicationView: View {
                     Spacer()
                 
                     
-                    NavigationLink(destination: MedicationFrequencyView(viewModel: MedicationListViewModel(selectedFrequency: ""), medicineName: viewModel.medicineName)) {
+                    NavigationLink(destination: MedicationFrequencyView(viewModel:viewModel)) {
                         Text("Next")
                             .font(.headline)
                             .foregroundColor(.white)
@@ -49,6 +49,8 @@ struct AddMedicationView: View {
                     }
                     
                     
+                
+                    
                     
                 }
                 .padding()
@@ -58,10 +60,11 @@ struct AddMedicationView: View {
             }
         }
         
+     
 
     }
 }
 
 #Preview {
-    AddMedicationView(viewModel: MedicationListViewModel(selectedFrequency: ""))
+    AddMedicationView(viewModel: MedicationListViewModel())
 }

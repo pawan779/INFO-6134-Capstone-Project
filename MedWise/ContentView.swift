@@ -22,7 +22,7 @@ struct ContentView: View {
                ForEach(Tab.allCases, id: \.rawValue) { tab in
                    HStack {
                        if tab == .medication {
-                           MedicationListView(viewModel: MedicationListViewModel(selectedFrequency: ""))
+                           MedicationListView(viewModel: MedicationListViewModel())
                        } else if tab == .history {
                            SupportView()
                        } else {
@@ -45,7 +45,8 @@ struct ContentView: View {
 }
 
 extension Color {
-    static let customBackgroundColor = Color(red: 0.2, green: 0.4, blue: 0.6)
+    static let customBackgroundColor = Color(red: 0.23, green: 0.29, blue: 0.38)
+    static let listViewColor = Color(red: 0.09, green: 0.14, blue: 0.26)
 }
 
 #Preview {

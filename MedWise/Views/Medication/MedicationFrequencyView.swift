@@ -9,8 +9,8 @@ import SwiftUI
 
 struct MedicationFrequencyView: View {
     
-    @State var viewModel: MedicationListViewModel
-    var medicineName: String
+    @ObservedObject var viewModel: MedicationListViewModel = MedicationListViewModel()
+//    var medicineName: String
     @Environment(\.presentationMode) var presentationMode
     var body: some View {
         
@@ -32,14 +32,20 @@ struct MedicationFrequencyView: View {
                     
                     VStack {
                         
-                        List{
-                            ForEach(viewModel.frequencyOptions, id:\.self){data in
-                                NavigationLink(data) {
-                                    MedicationReminderView(selectedFrequency: data, medicineName: medicineName, viewModel: MedicationListViewModel(selectedFrequency: data))
+                        List {
+                            ForEach(Array(viewModel.frequencyOptions.enumerated()), id: \.element) { index, data in
+                               
+                                NavigationLink(destination: MedicationReminderView( viewModel: viewModel).onAppear(perform: {
+                                    viewModel.selectedTimes = Array(repeating: Date(), count: index + 1)
+                                })) {
+                                    VStack {
+                                        Text(data)
+                                       
+                                    }
                                 }
                                 .navigationBarBackButtonHidden(true)
+                                
                             }
-                            
                         }
                         .frame(maxHeight: 250)
                         .cornerRadius(30.0)
@@ -63,5 +69,5 @@ struct MedicationFrequencyView: View {
 
 
 #Preview {
-    MedicationFrequencyView(viewModel: MedicationListViewModel(selectedFrequency: ""), medicineName: "")
+    MedicationFrequencyView(viewModel: MedicationListViewModel())
 }

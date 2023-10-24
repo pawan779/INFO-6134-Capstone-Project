@@ -9,9 +9,10 @@ import SwiftUI
 
 struct MedicationReminderView: View {
   
-    var selectedFrequency: String
-    var medicineName: String
-    @State var viewModel : MedicationListViewModel
+  
+    @ObservedObject var viewModel : MedicationListViewModel
+    
+    
     
     var body: some View {
             GeometryReader { geometry in
@@ -38,7 +39,7 @@ struct MedicationReminderView: View {
                     
                     Spacer()
                     
-                    Button(action: {  viewModel.closeAddMedication()
+                    Button(action: {  viewModel.toggleAddMedication()
                         addMedicine()
                     }, label: {
                         Text("Done")
@@ -51,14 +52,14 @@ struct MedicationReminderView: View {
                     .frame(width: geometry.size.width, height: geometry.size.height)
                     .background(Color.customBackgroundColor)
                 
-            
             }
     }
     func addMedicine(){
-        viewModel.addMedication(medicineName: medicineName, reminderTime: viewModel.selectedTimes)
+        viewModel.addMedication(medicineName: viewModel.medicineName, reminderTime: viewModel.selectedTimes)
+        
     }
 }
 
 #Preview {
-    MedicationReminderView( selectedFrequency: "", medicineName: "", viewModel: MedicationListViewModel(selectedFrequency: "Twice a day"))
+    MedicationReminderView(  viewModel: MedicationListViewModel())
 }

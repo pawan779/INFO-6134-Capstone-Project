@@ -62,14 +62,19 @@ class MedicationListViewModel: ObservableObject {
         fetchMedications()
     }
     
-    func updateMedication(medicineName: String, reminderTime: [ReminderTime], id: Int) {
-        DatabaseHelper.shared.updateMedication(id: id, newMedicineName: medicineName, newReminderTime: reminderTime)
+    func updateMedication(medicineName: String, reminderTime: [ReminderTime], id: Int,isDosedTracking: Bool, numberOfTablets: Int?, reminderOption: String?  ) {
+        DatabaseHelper.shared.updateMedication(id: id, newMedicineName: medicineName, newReminderTime: reminderTime, isDosedTracking: isDosedTracking, numberOfTablets: numberOfTablets, reminderOption: reminderOption)
         fetchMedications()
         
     }
     
     func updateIsTaken(id: Int, reminderTimeID: Int,newIsTaken: Bool ){
         DatabaseHelper.shared.updateMedicationIsTaken(id: id, reminderTimeID: reminderTimeID, newIsTaken: newIsTaken)
+        fetchMedications()
+    }
+    
+    func deleteMedication(mainId: Int, reminderTimeId: Int){
+        DatabaseHelper.shared.deleteReminderTime(medicationId: mainId, reminderTimeId: reminderTimeId)
         fetchMedications()
     }
 }

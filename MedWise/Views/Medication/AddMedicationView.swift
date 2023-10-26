@@ -37,12 +37,14 @@ struct AddMedicationView: View {
                     Spacer()
                 
                     NavigationLink(destination: viewModel.isEditMode ? AnyView(MedicationReminderView(viewModel: viewModel)) : AnyView(MedicationFrequencyView(viewModel: viewModel))) {
-                        Text("Next")
+                        Text("\(viewModel.medicineName.isEmpty ? "" : "Next")")
                             .font(.headline)
                             .foregroundColor(.white)
                             .padding()
                             .cornerRadius(10)
                     }
+                    .disabled(viewModel.medicineName.isEmpty)
+                    
                     
                
                 }

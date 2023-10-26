@@ -10,33 +10,40 @@ import SwiftUI
 struct MedicationRow: View {
     var medicine: Medication
     @ObservedObject var viewModel: MedicationListViewModel
+    @State private var isShowingOptionsAlert = false
     var body: some View {
     
    
             ZStack{
                 VStack{
                     ForEach(Array(medicine.reminderTime.enumerated()), id: \.1.id) { (index, reminderTime) in
-//                        NavigationLink(destination: AddMedicationView(viewModel:viewModel).onAppear(perform: {
-//                            viewModel.medicineName = medicine.medicineName
-//                        })) {
-//                            TimeerView(time: date, medicineName: medicine.medicineName)
-//                        }
-                        
-//                        Button(action: {   viewModel.toggleAddMedication()
-//                            viewModel.medicineName = medicine.medicineName
-//                            viewModel.selectedTimes = [reminderTime.time]
-//                            viewModel.isEditMode = true
-//                            viewModel.dataToBeUpdate = medicine.reminderTime
-//                            viewModel.selectedIndex = index
-//                            viewModel.selectedMedicationId = medicine.id
-//                        }, label: {
-                        TimerView(reminderTime: reminderTime, medicine: medicine, viewModel: viewModel)
+                        TimerView(reminderTime: reminderTime, medicine: medicine, viewModel: viewModel,isShowingOptionsAlert: $isShowingOptionsAlert)
                             
-                            
-//                        })
-//                        .sheet(isPresented: $viewModel.isPresented) {
-//                            AddMedicationView(viewModel:viewModel)
-//                        }
+                            .alert(isPresented: $isShowingOptionsAlert) {
+                                        Alert(
+                                            title: Text("Options for \(medicine.medicineName)"),
+                                            message: Text("Choose an option:"),
+                                            primaryButton: .default(Text("Edit")) {
+                                                viewModel.toggleAddMedication()
+                                                 viewModel.medicineName = medicine.medicineName
+                                                 viewModel.selectedTimes = [reminderTime.time]
+                                                 viewModel.isEditMode = true
+                                                 viewModel.dataToBeUpdate = medicine.reminderTime
+                                                 viewModel.selectedIndex = index
+                                                 viewModel.selectedMedicationId = medicine.id
+                                                viewModel.reminderOption = medicine.reminderOption ?? "1 week before medicine runs out"
+                                                viewModel.numberOfTablets = medicine.numberOfTablets ?? 0
+
+
+                                            },
+                                            secondaryButton: .destructive(Text("Delete")) {
+        
+                                                viewModel.deleteMedication(mainId: medicine.id, reminderTimeId: reminderTime.id)
+                                            }
+                                            
+                                            
+                                        )
+                                    }
                     }
                 }
             }
@@ -50,6 +57,7 @@ struct TimerView: View{
     var reminderTime: ReminderTime
     var medicine: Medication
     var viewModel: MedicationListViewModel
+    @Binding var isShowingOptionsAlert: Bool
     
     var body: some View {
         VStack(spacing:0){
@@ -85,6 +93,9 @@ struct TimerView: View{
                
                 
             }.frame(height: 90)
+                .onTapGesture {
+                    isShowingOptionsAlert = true
+                }
                
             ZStack(){
                 Color.white

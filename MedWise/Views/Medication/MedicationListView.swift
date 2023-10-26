@@ -23,15 +23,10 @@ struct MedicationListView: View {
             ZStack{
                 Color.customBackgroundColor
                     .ignoresSafeArea()
+                
+             
                 VStack{
-                    Button(action: {
-                        viewModel.toggleAddMedication()
-                        viewModel.isEditMode = false
-                        
-                    }, label: {
-                        Text("Add Medication")
-                    })
-                    
+             
                     ScrollView
                     {
                         ForEach(viewModel.medications){medicine in
@@ -42,6 +37,22 @@ struct MedicationListView: View {
 
                     .sheet(isPresented: $viewModel.isPresented) {
                         AddMedicationView(viewModel:viewModel)
+                    }
+                    
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            viewModel.toggleAddMedication()
+                            viewModel.isEditMode = false
+                        }) {
+                            Image(systemName: "plus.circle.fill")
+                                                       .resizable()
+                                                       .frame(width: 60, height: 60)
+//                                                       .background(Circle())
+                                                       .foregroundColor(.white)
+                                                       .padding(.bottom, 60)
+                                                       .padding(.trailing, 20)
+                        }
                     }
                 }
             }

@@ -84,9 +84,10 @@ struct DoseTrackerView: View {
 
             viewModel.dataToBeUpdate[viewModel.selectedIndex].time = viewModel.selectedTimes[0]
 
-            viewModel.updateMedication(medicineName: viewModel.medicineName, reminderTime:viewModel.dataToBeUpdate, id: viewModel.selectedMedicationId )
+            viewModel.updateMedication(medicineName: viewModel.medicineName, reminderTime:viewModel.dataToBeUpdate, id: viewModel.selectedMedicationId,  isDosedTracking: true, numberOfTablets: viewModel.numberOfTablets, reminderOption: viewModel.reminderOption )
             
             viewModel.toggleAddMedication()
+            viewModel.medicineName = ""
 
 
         }
@@ -95,6 +96,7 @@ struct DoseTrackerView: View {
             viewModel.addMedication(medicineName: viewModel.medicineName, reminderTime: viewModel.selectedTimes, isDosedTracking: true, numberOfTablets: viewModel.numberOfTablets, reminderOption: viewModel.reminderOption )
             
             viewModel.toggleAddMedication()
+            viewModel.medicineName = ""
         }
     }
     

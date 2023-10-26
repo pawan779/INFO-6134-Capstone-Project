@@ -147,7 +147,7 @@ class DatabaseHelper {
     }
 
     
-    func updateMedication(id: Int, newMedicineName: String, newReminderTime: [ReminderTime]) {
+    func updateMedication(id: Int, newMedicineName: String, newReminderTime: [ReminderTime], isDosedTracking: Bool, numberOfTablets: Int?, reminderOption: String?) {
         do {
             try db?.transaction {
                 // Convert the reminderTime array to a format suitable for storage
@@ -167,7 +167,10 @@ class DatabaseHelper {
                 let update = self.medication.filter(Expression<Int>("id") == id)
                     .update(
                         Expression<String>("medicineName") <- newMedicineName,
-                        Expression<Data?>("reminderTime") <- encodedData
+                        Expression<Data?>("reminderTime") <- encodedData,
+                        Expression<Bool>("isDosedTracking") <- isDosedTracking,
+                        Expression<Int?>("numberOfTablets") <- numberOfTablets,
+                        Expression<String?>("reminderOption") <- reminderOption
                     )
 
                 try db?.run(update)
@@ -176,6 +179,7 @@ class DatabaseHelper {
             print("Unable to update medication: \(error)")
         }
     }
+
 
     
 //    func updateMedicationIsTaken(id: Int, reminderTimeID: Int, newIsTaken: Bool) {
@@ -247,6 +251,58 @@ class DatabaseHelper {
     }
 
 
+
+//    func deleteTimeTaken(mainId: Int, reminderTimeId: Int) {
+//        do {
+//            try db?.transaction {
+//                // Create a delete statement
+//                let delete = self.medication
+//                    .filter(Expression<Int>("id") == mainId)
+//                    .filter(Expression<Int>("reminderTime.id") == reminderTimeId)
+//                    .delete()
+//
+//                try db?.run(delete)
+//            }
+//        } catch {
+//            print("Unable to delete time taken: \(error)")
+//        }
+//    }
+//
+    
+    func deleteReminderTime( medicationId: Int, reminderTimeId: Int) {
+        do {
+            try db?.transaction {
+                // Find the medication by its ID
+                let medicationFilter = self.medication.filter(Expression<Int>("id") == medicationId)
+
+                // Fetch the existing reminder times for the medication
+                let medicationWithReminderTime = try db?.pluck(medicationFilter)
+                var reminderTimes = medicationWithReminderTime?[Expression<Data?>("reminderTime")]
+
+                if var reminderTimeData = reminderTimes as? Data {
+                    var reminderTimeArray = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(reminderTimeData) as? [[String: Any]]
+                    
+                    // Filter the reminder times to exclude the one with the specified reminderTimeId
+                    reminderTimeArray = reminderTimeArray?.filter { reminderTime in
+                        guard let id = reminderTime["id"] as? Int else { return true }
+                        return id != reminderTimeId
+                    }
+
+                    // Encode the updated reminderTime array
+                    let encodedData = try NSKeyedArchiver.archivedData(withRootObject: reminderTimeArray, requiringSecureCoding: false)
+
+                    // Update the medication with the modified reminder times
+                    let update = medicationFilter.update(
+                        Expression<Data?>("reminderTime") <- encodedData
+                    )
+
+                    try db?.run(update)
+                }
+            }
+        } catch {
+            print("Unable to delete reminder time: \(error)")
+        }
+    }
 
 
 }

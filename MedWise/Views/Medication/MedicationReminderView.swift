@@ -53,6 +53,7 @@ struct MedicationReminderView: View {
                         destination: TrackView(viewModel: viewModel),
                         label: {
                             Text("Continue")
+                                .foregroundColor(.white)
                         })
                     
                 }

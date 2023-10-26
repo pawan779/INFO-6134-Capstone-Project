@@ -26,7 +26,7 @@ struct ContentView: View {
                        } else if tab == .history {
                            SupportView()
                        } else {
-                           ProfileView()
+                           SettingsView()
                        }
                    }
                

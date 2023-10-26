@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A8A4B992AE9F5FF002C7239 /* TrackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8A4B982AE9F5FF002C7239 /* TrackView.swift */; };
+		4A8A4B9B2AE9F61A002C7239 /* DoseTrackerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8A4B9A2AE9F61A002C7239 /* DoseTrackerView.swift */; };
 		FDB87D2C2AE4200500B9B6A5 /* DatabaseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB87D2B2AE4200500B9B6A5 /* DatabaseHelper.swift */; };
 		FDB87D2E2AE4201D00B9B6A5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB87D2D2AE4201D00B9B6A5 /* User.swift */; };
 		FDB87D302AE4202D00B9B6A5 /* Medication.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB87D2F2AE4202D00B9B6A5 /* Medication.swift */; };
@@ -32,6 +34,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4A8A4B982AE9F5FF002C7239 /* TrackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackView.swift; sourceTree = "<group>"; };
+		4A8A4B9A2AE9F61A002C7239 /* DoseTrackerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoseTrackerView.swift; sourceTree = "<group>"; };
 		FDB87D2B2AE4200500B9B6A5 /* DatabaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseHelper.swift; sourceTree = "<group>"; };
 		FDB87D2D2AE4201D00B9B6A5 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		FDB87D2F2AE4202D00B9B6A5 /* Medication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Medication.swift; sourceTree = "<group>"; };
@@ -75,6 +79,8 @@
 				FDB87D562AE4A6F400B9B6A5 /* AddMedicationView.swift */,
 				FDB87D582AE4BC0800B9B6A5 /* MedicationFrequencyView.swift */,
 				FDB87D5C2AE59DC400B9B6A5 /* MedicationReminderView.swift */,
+				4A8A4B982AE9F5FF002C7239 /* TrackView.swift */,
+				4A8A4B9A2AE9F61A002C7239 /* DoseTrackerView.swift */,
 			);
 			path = Medication;
 			sourceTree = "<group>";
@@ -278,6 +284,8 @@
 			files = (
 				FDB87D302AE4202D00B9B6A5 /* Medication.swift in Sources */,
 				FDB87D2E2AE4201D00B9B6A5 /* User.swift in Sources */,
+				4A8A4B9B2AE9F61A002C7239 /* DoseTrackerView.swift in Sources */,
+				4A8A4B992AE9F5FF002C7239 /* TrackView.swift in Sources */,
 				FDB87D432AE4255000B9B6A5 /* AppointmentListView.swift in Sources */,
 				FDB87D572AE4A6F400B9B6A5 /* AddMedicationView.swift in Sources */,
 				FDC90BBD2AD8D684005A9A1E /* ContentView.swift in Sources */,

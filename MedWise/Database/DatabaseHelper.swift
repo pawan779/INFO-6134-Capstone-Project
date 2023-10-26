@@ -39,10 +39,13 @@ class DatabaseHelper {
                 
             })
             try db!.run(medication.create(ifNotExists: true) { table in
-                          table.column(Expression<Int>("id"), primaryKey: .autoincrement)
-                          table.column(Expression<String>("medicineName"))
-                          table.column(Expression<Blob>("reminderTime"))
-                      })
+                table.column(Expression<Int>("id"), primaryKey: .autoincrement)
+                table.column(Expression<String>("medicineName"))
+                table.column(Expression<Blob>("reminderTime"))
+                table.column(Expression<Bool>("isDosedTracking"), defaultValue: false)
+                table.column(Expression<Int?>("numberOfTablets"))
+                table.column(Expression<String?>("reminderOption"))
+            })
         } catch {
             print("Unable to create table: \(error)")
         }
@@ -52,41 +55,198 @@ class DatabaseHelper {
            // Implement the code for adding a user to the 'users' table
        }
 
-       func addMedication(medicineName: String, reminderTime: [Date]) {
-           do {
-               let encodedData = try NSKeyedArchiver.archivedData(withRootObject: reminderTime, requiringSecureCoding: false)
+    func addMedication(
+        medicineName: String,
+        reminderTime: [Date],
+        isDosedTracking: Bool,
+        numberOfTablets: Int?,
+        reminderOption: String?
+    ) {
+        do {
+            try db?.transaction {
+                var reminderTimeData: [[String: Any]] = []
 
-               let insert = self.medication.insert(
-                   Expression<String>("medicineName") <- medicineName,
-                   Expression<Data?>("reminderTime") <- encodedData
-               )
+                for (index, date) in reminderTime.enumerated() {
+                    let dateData: [String: Any] = [
+                        "time": date,
+                        "isTaken": false,
+                        "id": index + 1
+                    ]
+                    reminderTimeData.append(dateData)
+                }
 
-               try db?.run(insert)
-           } catch {
-               print("Unable to add medication: \(error)")
-           }
-       }
+                let encodedData = try NSKeyedArchiver.archivedData(withRootObject: reminderTimeData, requiringSecureCoding: false)
+
+                let insert = self.medication.insert(
+                    Expression<String>("medicineName") <- medicineName,
+                    Expression<Data?>("reminderTime") <- encodedData,
+                    Expression<Bool>("isDosedTracking") <- isDosedTracking,
+                    Expression<Int?>("numberOfTablets") <- numberOfTablets ?? 0,
+                    Expression<String?>("reminderOption") <- reminderOption ?? ""
+                )
+
+                try db?.run(insert)
+            }
+        } catch {
+            print("Unable to add medication: \(error)")
+        }
+    }
+
+
+    
+    func deleteAllMedications() {
+        do {
+            let delete = medication.delete()
+            try db?.run(delete)
+        } catch {
+            print("Unable to delete medications: \(error)")
+        }
+    }
     
     func fetchMedications() -> [Medication] {
         var medications: [Medication] = []
 
         do {
-            for medicationRow in try db!.prepare(medication) {
-                let medicineName = medicationRow[Expression<String>("medicineName")]
-                
-                if let data = medicationRow[Expression<Data?>("reminderTime")] {
-                    if let reminderTime = NSKeyedUnarchiver.unarchiveObject(with: data) as? [Date] {
-                        let medication = Medication(id: medicationRow[Expression<Int>("id")], medicineName: medicineName, reminderTime: reminderTime)
+            for row in try db!.prepare(medication) {
+                if let medicineName = row[Expression<String?>("medicineName")],
+                   let reminderTimeData = row[Expression<Data?>("reminderTime")],
+                   let isDosedTracking = row[Expression<Bool?>("isDosedTracking")],
+                   let numberOfTablets = row[Expression<Int?>("numberOfTablets")],
+                   let reminderOption = row[Expression<String?>("reminderOption")] {
+
+                    if let reminderTimeArray = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(reminderTimeData) as? [[String: Any]] {
+                        var reminderTimes: [ReminderTime] = []
+
+                        for reminderTimeInfo in reminderTimeArray {
+                            if let time = reminderTimeInfo["time"] as? Date,
+                               let id = reminderTimeInfo["id"] as? Int,
+                               let isTaken = reminderTimeInfo["isTaken"] as? Bool {
+                                let reminderTime = ReminderTime(id: id, time: time, isTaken: isTaken)
+                                reminderTimes.append(reminderTime)
+                            }
+                        }
+
+                        let actualID = row[Expression<Int>("id")]
+                        let medication = Medication(
+                            id: actualID,
+                            medicineName: medicineName,
+                            reminderTime: reminderTimes,
+                            isDosedTracking: isDosedTracking,
+                            numberOfTablets: numberOfTablets,
+                            reminderOption: reminderOption
+                        )
                         medications.append(medication)
                     }
                 }
             }
         } catch {
-            print("Unable to fetch medication data: \(error)")
+            print("Unable to fetch medications: \(error)")
         }
 
         return medications
     }
 
     
+    func updateMedication(id: Int, newMedicineName: String, newReminderTime: [ReminderTime]) {
+        do {
+            try db?.transaction {
+                // Convert the reminderTime array to a format suitable for storage
+                var reminderTimeData: [[String: Any]] = []
+                for (index, reminderTime) in newReminderTime.enumerated() {
+                    let dateData: [String: Any] = [
+                        "time": reminderTime.time,
+                        "isTaken": reminderTime.isTaken,
+                        "id": index + 1
+                    ]
+                    reminderTimeData.append(dateData)
+                }
+
+                let encodedData = try NSKeyedArchiver.archivedData(withRootObject: reminderTimeData, requiringSecureCoding: false)
+
+                // Create an update statement
+                let update = self.medication.filter(Expression<Int>("id") == id)
+                    .update(
+                        Expression<String>("medicineName") <- newMedicineName,
+                        Expression<Data?>("reminderTime") <- encodedData
+                    )
+
+                try db?.run(update)
+            }
+        } catch {
+            print("Unable to update medication: \(error)")
+        }
+    }
+
+    
+//    func updateMedicationIsTaken(id: Int, reminderTimeID: Int, newIsTaken: Bool) {
+//        do {
+//            try db?.transaction {
+//                // Retrieve the existing medication
+//                if let existingMedication = try db?.pluck(medication.filter(Expression<Int>("id") == id)),
+//                   let existingReminderTimeData = existingMedication[Expression<Data?>("reminderTime")] {
+//                    if var reminderTimeArray = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(existingReminderTimeData) as? [[String: Any]] {
+//                        // Update the 'isTaken' property for the specific reminder time
+//                        if let index = reminderTimeArray.firstIndex(where: { $0["id"] as? Int == reminderTimeID }) {
+//                            reminderTimeArray[index]["isTaken"] = newIsTaken
+//                        }
+//
+//                        // Encode the updated reminderTimeArray
+//                        let updatedData = try NSKeyedArchiver.archivedData(withRootObject: reminderTimeArray, requiringSecureCoding: false)
+//
+//                        // Update the medication with the new reminderTime data
+//                        let update = self.medication.filter(Expression<Int>("id") == id)
+//                            .update(Expression<Data?>("reminderTime") <- updatedData)
+//
+//                        try db?.run(update)
+//                    }
+//                }
+//            }
+//        } catch {
+//            print("Unable to update medication's isTaken property: \(error)")
+//        }
+//    }
+
+    func updateMedicationIsTaken(id: Int, reminderTimeID: Int, newIsTaken: Bool) {
+        do {
+            try db?.transaction {
+                // Retrieve the existing medication
+                if let existingMedication = try db?.pluck(medication.filter(Expression<Int>("id") == id)),
+                   var existingReminderTimeData = existingMedication[Expression<Data?>("reminderTime")],
+                   let isDosedTracking = existingMedication[Expression<Bool?>("isDosedTracking")],
+                   var numberOfTablets = existingMedication[Expression<Int?>("numberOfTablets")],
+                   var reminderTimeArray = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(existingReminderTimeData) as? [[String: Any]] {
+                    
+                    // Update the 'isTaken' property for the specific reminder time
+                    if let index = reminderTimeArray.firstIndex(where: { $0["id"] as? Int == reminderTimeID }) {
+                        reminderTimeArray[index]["isTaken"] = newIsTaken
+                    }
+
+                    // Decrement 'numberOfTablets' if 'isDosedTracking' is true
+                    if isDosedTracking && numberOfTablets != nil {
+                        numberOfTablets -= 1
+                    }
+
+                    // Encode the updated data
+                    existingReminderTimeData = try NSKeyedArchiver.archivedData(withRootObject: reminderTimeArray, requiringSecureCoding: false)
+
+                    // Update the medication with the new data
+                    let update = self.medication.filter(Expression<Int>("id") == id)
+                        .update(
+                            Expression<Data?>("reminderTime") <- existingReminderTimeData,
+                            Expression<Int?>("numberOfTablets") <- numberOfTablets
+                        )
+
+                    try db?.run(update)
+                } else {
+                     print("Error while updating medication's isTaken property")
+                }
+            }
+        } catch {
+            print("Error while updating medication's isTaken property: \(error)")
+        }
+    }
+
+
+
+
 }

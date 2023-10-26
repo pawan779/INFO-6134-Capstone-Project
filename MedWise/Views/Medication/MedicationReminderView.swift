@@ -39,25 +39,30 @@ struct MedicationReminderView: View {
                     
                     Spacer()
                     
-                    Button(action: {  viewModel.toggleAddMedication()
-                        addMedicine()
-                    }, label: {
-                        Text("Done")
-                            .foregroundColor(.white)
-                            .font(.headline)
-                    })
+//                    Button(action: {
+//                        viewModel.toggleAddMedication()
+//                        addMedicine()
+//                    }, label: {
+//                        Text("\(viewModel.isEditMode ? "Update" :  "Done")")
+//                            .foregroundColor(.white)
+//                            .font(.headline)
+//                    })
                     
-                }.navigationBarBackButtonHidden(true)
+                    
+                    NavigationLink(
+                        destination: TrackView(viewModel: viewModel),
+                        label: {
+                            Text("Continue")
+                        })
+                    
+                }
                     .padding()
                     .frame(width: geometry.size.width, height: geometry.size.height)
                     .background(Color.customBackgroundColor)
                 
             }
     }
-    func addMedicine(){
-        viewModel.addMedication(medicineName: viewModel.medicineName, reminderTime: viewModel.selectedTimes)
-        
-    }
+    
 }
 
 #Preview {

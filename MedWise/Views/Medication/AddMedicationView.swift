@@ -36,22 +36,15 @@ struct AddMedicationView: View {
                     
                     Spacer()
                 
-                    
-                    NavigationLink(destination: MedicationFrequencyView(viewModel:viewModel)) {
+                    NavigationLink(destination: viewModel.isEditMode ? AnyView(MedicationReminderView(viewModel: viewModel)) : AnyView(MedicationFrequencyView(viewModel: viewModel))) {
                         Text("Next")
                             .font(.headline)
                             .foregroundColor(.white)
                             .padding()
-                        
                             .cornerRadius(10)
-                        
-                        
                     }
                     
-                    
-                
-                    
-                    
+               
                 }
                 .padding()
                 .frame(width: geometry.size.width, height: geometry.size.height)

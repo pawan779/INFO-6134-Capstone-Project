@@ -14,7 +14,7 @@ struct MedicationFrequencyView: View {
     @Environment(\.presentationMode) var presentationMode
     var body: some View {
         
-        NavigationView{
+
             GeometryReader { geometry in
                 VStack {
                     HStack{
@@ -43,7 +43,6 @@ struct MedicationFrequencyView: View {
                                        
                                     }
                                 }
-                                .navigationBarBackButtonHidden(true)
                                 
                             }
                         }
@@ -61,7 +60,7 @@ struct MedicationFrequencyView: View {
                 
             }
                
-        }
+        
 
     }
     

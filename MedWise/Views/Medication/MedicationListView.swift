@@ -19,24 +19,32 @@ struct MedicationListView: View {
     }
     
     var body: some View {
-        
-        ZStack{
-            Color.customBackgroundColor
-                .ignoresSafeArea()
-            VStack{
-                Button(action: {
-                    viewModel.toggleAddMedication()
+        NavigationView{
+            ZStack{
+                Color.customBackgroundColor
+                    .ignoresSafeArea()
+                VStack{
+                    Button(action: {
+                        viewModel.toggleAddMedication()
+                        viewModel.isEditMode = false
+                        
+                    }, label: {
+                        Text("Add Medication")
+                    })
                     
-                }, label: {
-                    Text("Add Medication")
-                })
-       
-               
-                .sheet(isPresented: $viewModel.isPresented) {
-                    AddMedicationView(viewModel:viewModel)
+//                    ScrollView
+//                    {
+//                        ForEach(viewModel.medications){medicine in
+//                            MedicationRow(medicine: medicine,viewModel: viewModel)
+//                        }
+//                        .padding(.vertical,20)
+//                    }
+//
+                    .sheet(isPresented: $viewModel.isPresented) {
+                        AddMedicationView(viewModel:viewModel)
+                    }
                 }
             }
-            
         }
        
     }

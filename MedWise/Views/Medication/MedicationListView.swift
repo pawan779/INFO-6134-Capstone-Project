@@ -32,14 +32,14 @@ struct MedicationListView: View {
                         Text("Add Medication")
                     })
                     
-//                    ScrollView
-//                    {
-//                        ForEach(viewModel.medications){medicine in
-//                            MedicationRow(medicine: medicine,viewModel: viewModel)
-//                        }
-//                        .padding(.vertical,20)
-//                    }
-//
+                    ScrollView
+                    {
+                        ForEach(viewModel.medications){medicine in
+                            MedicationRow(medicine: medicine,viewModel: viewModel)
+                        }
+                        .padding(.vertical,20)
+                    }
+
                     .sheet(isPresented: $viewModel.isPresented) {
                         AddMedicationView(viewModel:viewModel)
                     }

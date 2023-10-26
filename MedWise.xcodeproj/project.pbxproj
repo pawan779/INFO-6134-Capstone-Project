@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4A8A4B992AE9F5FF002C7239 /* TrackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8A4B982AE9F5FF002C7239 /* TrackView.swift */; };
 		4A8A4B9B2AE9F61A002C7239 /* DoseTrackerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8A4B9A2AE9F61A002C7239 /* DoseTrackerView.swift */; };
+		AE3C3C482AE9FAE200FCBF37 /* MedicationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3C3C472AE9FAE200FCBF37 /* MedicationRow.swift */; };
 		FDB87D2C2AE4200500B9B6A5 /* DatabaseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB87D2B2AE4200500B9B6A5 /* DatabaseHelper.swift */; };
 		FDB87D2E2AE4201D00B9B6A5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB87D2D2AE4201D00B9B6A5 /* User.swift */; };
 		FDB87D302AE4202D00B9B6A5 /* Medication.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB87D2F2AE4202D00B9B6A5 /* Medication.swift */; };
@@ -36,6 +37,7 @@
 /* Begin PBXFileReference section */
 		4A8A4B982AE9F5FF002C7239 /* TrackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackView.swift; sourceTree = "<group>"; };
 		4A8A4B9A2AE9F61A002C7239 /* DoseTrackerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoseTrackerView.swift; sourceTree = "<group>"; };
+		AE3C3C472AE9FAE200FCBF37 /* MedicationRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicationRow.swift; sourceTree = "<group>"; };
 		FDB87D2B2AE4200500B9B6A5 /* DatabaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseHelper.swift; sourceTree = "<group>"; };
 		FDB87D2D2AE4201D00B9B6A5 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		FDB87D2F2AE4202D00B9B6A5 /* Medication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Medication.swift; sourceTree = "<group>"; };
@@ -81,6 +83,7 @@
 				FDB87D5C2AE59DC400B9B6A5 /* MedicationReminderView.swift */,
 				4A8A4B982AE9F5FF002C7239 /* TrackView.swift */,
 				4A8A4B9A2AE9F61A002C7239 /* DoseTrackerView.swift */,
+				AE3C3C472AE9FAE200FCBF37 /* MedicationRow.swift */,
 			);
 			path = Medication;
 			sourceTree = "<group>";
@@ -293,6 +296,7 @@
 				FDB87D382AE420E200B9B6A5 /* MedicationViewModel.swift in Sources */,
 				FDB87D342AE4205500B9B6A5 /* NotificationManager.swift in Sources */,
 				FDB87D3A2AE420FD00B9B6A5 /* AppointmentViewModel.swift in Sources */,
+				AE3C3C482AE9FAE200FCBF37 /* MedicationRow.swift in Sources */,
 				FDB87D5D2AE59DC400B9B6A5 /* MedicationReminderView.swift in Sources */,
 				FDB87D3E2AE4250800B9B6A5 /* MedicationListView.swift in Sources */,
 				FDB87D2C2AE4200500B9B6A5 /* DatabaseHelper.swift in Sources */,

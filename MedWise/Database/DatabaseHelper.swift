@@ -42,6 +42,7 @@ class DatabaseHelper {
                 table.column(Expression<Int>("id"), primaryKey: .autoincrement)
                 table.column(Expression<String>("medicineName"))
                 table.column(Expression<Blob>("reminderTime"))
+                table.column(Expression<Date>("medicationDate"))
                 table.column(Expression<Bool>("isDosedTracking"), defaultValue: false)
                 table.column(Expression<Int?>("numberOfTablets"))
                 table.column(Expression<String?>("reminderOption"))
@@ -60,7 +61,8 @@ class DatabaseHelper {
         reminderTime: [Date],
         isDosedTracking: Bool,
         numberOfTablets: Int?,
-        reminderOption: String?
+        reminderOption: String?,
+        notificationID: String
     ) {
         do {
             try db?.transaction {
@@ -70,7 +72,8 @@ class DatabaseHelper {
                     let dateData: [String: Any] = [
                         "time": date,
                         "isTaken": false,
-                        "id": index + 1
+                        "id": index + 1,
+                        "notificationID": notificationID + "\(index+1)"
                     ]
                     reminderTimeData.append(dateData)
                 }
@@ -82,8 +85,11 @@ class DatabaseHelper {
                     Expression<Data?>("reminderTime") <- encodedData,
                     Expression<Bool>("isDosedTracking") <- isDosedTracking,
                     Expression<Int?>("numberOfTablets") <- numberOfTablets ?? 0,
-                    Expression<String?>("reminderOption") <- reminderOption ?? ""
+                    Expression<String?>("reminderOption") <- reminderOption ?? "",
+                    Expression<Date>("medicationDate") <- Date()
                 )
+                
+           
 
                 try db?.run(insert)
             }
@@ -108,20 +114,26 @@ class DatabaseHelper {
 
         do {
             for row in try db!.prepare(medication) {
+                
+              
                 if let medicineName = row[Expression<String?>("medicineName")],
                    let reminderTimeData = row[Expression<Data?>("reminderTime")],
                    let isDosedTracking = row[Expression<Bool?>("isDosedTracking")],
                    let numberOfTablets = row[Expression<Int?>("numberOfTablets")],
+                   let medicationDate = row[Expression<Date?>("medicationDate")],
                    let reminderOption = row[Expression<String?>("reminderOption")] {
 
+               
+                    
                     if let reminderTimeArray = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(reminderTimeData) as? [[String: Any]] {
                         var reminderTimes: [ReminderTime] = []
 
                         for reminderTimeInfo in reminderTimeArray {
                             if let time = reminderTimeInfo["time"] as? Date,
                                let id = reminderTimeInfo["id"] as? Int,
+                               let notificationID = reminderTimeInfo["notificationID"] as? String,
                                let isTaken = reminderTimeInfo["isTaken"] as? Bool {
-                                let reminderTime = ReminderTime(id: id, time: time, isTaken: isTaken)
+                                let reminderTime = ReminderTime(id: id, time: time, isTaken: isTaken, notificationID: notificationID)
                                 reminderTimes.append(reminderTime)
                             }
                         }
@@ -133,7 +145,8 @@ class DatabaseHelper {
                             reminderTime: reminderTimes,
                             isDosedTracking: isDosedTracking,
                             numberOfTablets: numberOfTablets,
-                            reminderOption: reminderOption
+                            reminderOption: reminderOption,
+                            medicationDate: medicationDate
                         )
                         medications.append(medication)
                     }
@@ -142,6 +155,7 @@ class DatabaseHelper {
         } catch {
             print("Unable to fetch medications: \(error)")
         }
+
 
         return medications
     }
@@ -301,6 +315,78 @@ class DatabaseHelper {
             }
         } catch {
             print("Unable to delete reminder time: \(error)")
+        }
+    }
+//    
+//    func resetAllMedicationIsTaken() {
+//        do {
+//            try db?.transaction {
+//                // Fetch all medications from the database
+//                for medicationRow in try db!.prepare(medication) {
+//                    let id = medicationRow[Expression<Int>("id")]
+//                    if var reminderTimeData = medicationRow[Expression<Data?>("reminderTime")] {
+//                        // Decode the reminderTimeData into an array of dictionaries
+//                        guard var reminderTimeArray = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(reminderTimeData) as? [[String: Any]] else {
+//                            continue // Skip this medication if the data cannot be decoded
+//                        }
+//
+//                        // Reset the "isTaken" property for each reminder time
+//                        for reminderTimeIndex in 0..<reminderTimeArray.count {
+//                            reminderTimeArray[reminderTimeIndex]["isTaken"] = false
+//                            
+//                        }
+//
+//                        // Encode the updated data
+//                        reminderTimeData = try NSKeyedArchiver.archivedData(withRootObject: reminderTimeArray, requiringSecureCoding: false)
+//
+//                        // Update the medication with the new reminder time data
+//                        let update = self.medication.filter(Expression<Int>("id") == id)
+//                            .update(Expression<Data?>("reminderTime") <- reminderTimeData)
+//
+//                        try db?.run(update)
+//                    }
+//                }
+//            }
+//        } catch {
+//            print("Unable to reset 'isTaken' property for all medications: \(error)")
+//        }
+//    }
+
+    
+    
+    func resetAllMedicationIsTaken() {
+        do {
+            try db?.transaction {
+                // Fetch all medications from the database
+                for medicationRow in try db!.prepare(medication) {
+                    let id = medicationRow[Expression<Int>("id")]
+                    if var reminderTimeData = medicationRow[Expression<Data?>("reminderTime")] {
+                        // Decode the reminderTimeData into an array of dictionaries
+                        guard var reminderTimeArray = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(reminderTimeData) as? [[String: Any]] else {
+                            continue // Skip this medication if the data cannot be decoded
+                        }
+
+                        // Reset the "isTaken" property for each reminder time
+                        for reminderTimeIndex in 0..<reminderTimeArray.count {
+                            reminderTimeArray[reminderTimeIndex]["isTaken"] = false
+                        }
+
+                        // Encode the updated data
+                        reminderTimeData = try NSKeyedArchiver.archivedData(withRootObject: reminderTimeArray, requiringSecureCoding: false)
+
+                        // Create an update statement for reminderTime and medicationDate
+                        let update = self.medication.filter(Expression<Int>("id") == id)
+                            .update(
+                                Expression<Data?>("reminderTime") <- reminderTimeData,
+                                Expression<Date>("medicationDate") <- Date()
+                            )
+
+                        try db?.run(update)
+                    }
+                }
+            }
+        } catch {
+            print("Unable to reset 'isTaken' property for all medications: \(error)")
         }
     }
 

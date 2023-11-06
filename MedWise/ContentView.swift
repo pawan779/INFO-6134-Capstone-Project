@@ -9,10 +9,18 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var selectedTab: Tab = .medication
+    @ObservedObject var notificationViewModel: NotificationViewModel = NotificationViewModel()
     
     init() {
+        
+        notificationViewModel.requestNotificationPermissions()
+        
        UITabBar.appearance().isHidden = true
         DatabaseHelper.shared.createTableIfNotExists()
+        
+        
+//        DatabaseHelper.shared.deleteAllMedications()
+    
     }
 
     var body: some View {

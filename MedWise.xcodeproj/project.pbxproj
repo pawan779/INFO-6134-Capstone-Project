@@ -12,6 +12,7 @@
 		6E7DA4712AE9FE7D000696B9 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7DA4702AE9FE7D000696B9 /* SettingsView.swift */; };
 		6E7DA4732AE9FE94000696B9 /* ProfileRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7DA4722AE9FE94000696B9 /* ProfileRow.swift */; };
 		AE3C3C482AE9FAE200FCBF37 /* MedicationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3C3C472AE9FAE200FCBF37 /* MedicationRow.swift */; };
+		FD2CF9BE2AED872C00CF6FBC /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2CF9BD2AED872C00CF6FBC /* NotificationViewModel.swift */; };
 		FDB87D2C2AE4200500B9B6A5 /* DatabaseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB87D2B2AE4200500B9B6A5 /* DatabaseHelper.swift */; };
 		FDB87D2E2AE4201D00B9B6A5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB87D2D2AE4201D00B9B6A5 /* User.swift */; };
 		FDB87D302AE4202D00B9B6A5 /* Medication.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB87D2F2AE4202D00B9B6A5 /* Medication.swift */; };
@@ -42,6 +43,7 @@
 		6E7DA4702AE9FE7D000696B9 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		6E7DA4722AE9FE94000696B9 /* ProfileRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRow.swift; sourceTree = "<group>"; };
 		AE3C3C472AE9FAE200FCBF37 /* MedicationRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicationRow.swift; sourceTree = "<group>"; };
+		FD2CF9BD2AED872C00CF6FBC /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
 		FDB87D2B2AE4200500B9B6A5 /* DatabaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseHelper.swift; sourceTree = "<group>"; };
 		FDB87D2D2AE4201D00B9B6A5 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		FDB87D2F2AE4202D00B9B6A5 /* Medication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Medication.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 				FDB87D352AE420D400B9B6A5 /* ProfileViewModel.swift */,
 				FDB87D372AE420E200B9B6A5 /* MedicationViewModel.swift */,
 				FDB87D392AE420FD00B9B6A5 /* AppointmentViewModel.swift */,
+				FD2CF9BD2AED872C00CF6FBC /* NotificationViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -312,6 +315,7 @@
 				FDB87D482AE4259600B9B6A5 /* ProfileView.swift in Sources */,
 				FDB87D4A2AE425B400B9B6A5 /* SupportView.swift in Sources */,
 				6E7DA4732AE9FE94000696B9 /* ProfileRow.swift in Sources */,
+				FD2CF9BE2AED872C00CF6FBC /* NotificationViewModel.swift in Sources */,
 				FDB87D622AE5E78200B9B6A5 /* HelperFunction.swift in Sources */,
 				FDB87D592AE4BC0800B9B6A5 /* MedicationFrequencyView.swift in Sources */,
 				FDC90BBB2AD8D684005A9A1E /* MedWiseApp.swift in Sources */,
@@ -448,13 +452,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MedWise/Preview Content\"";
+				DEVELOPMENT_TEAM = F9C8S8VT8S;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -476,13 +481,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MedWise/Preview Content\"";
+				DEVELOPMENT_TEAM = F9C8S8VT8S;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

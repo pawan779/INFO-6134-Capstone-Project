@@ -39,14 +39,6 @@ struct MedicationReminderView: View {
                     
                     Spacer()
                     
-//                    Button(action: {
-//                        viewModel.toggleAddMedication()
-//                        addMedicine()
-//                    }, label: {
-//                        Text("\(viewModel.isEditMode ? "Update" :  "Done")")
-//                            .foregroundColor(.white)
-//                            .font(.headline)
-//                    })
                     
                     
                     NavigationLink(

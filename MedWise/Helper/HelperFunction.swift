@@ -15,4 +15,16 @@ class HelperFunction{
         formatter.dateFormat = "hh:mm a"
         return formatter.string(from: time)
     }
+    
+    func formattedHour(_ time: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "hh"
+        return formatter.string(from: time)
+    }
+    
+    func formattedMinutes(_ time: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "mm"
+        return formatter.string(from: time)
+    }
 }

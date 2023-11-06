@@ -29,6 +29,8 @@ struct MedicationRow: View {
                                                  viewModel.selectedTimes = [reminderTime.time]
                                                  viewModel.isEditMode = true
                                                  viewModel.dataToBeUpdate = medicine.reminderTime
+                                                viewModel.selectedNotificationID = reminderTime.notificationID
+                                                viewModel.notificationTime = reminderTime.time
                                                  viewModel.selectedIndex = index
                                                  viewModel.selectedMedicationId = medicine.id
                                                 viewModel.reminderOption = medicine.reminderOption ?? "1 week before medicine runs out"
@@ -38,7 +40,7 @@ struct MedicationRow: View {
                                             },
                                             secondaryButton: .destructive(Text("Delete")) {
         
-                                                viewModel.deleteMedication(mainId: medicine.id, reminderTimeId: reminderTime.id)
+                                                viewModel.deleteMedication(mainId: medicine.id, reminderTimeId: reminderTime.id, notificationID: reminderTime.notificationID)
                                             }
                                             
                                             
@@ -123,4 +125,6 @@ struct TimerView: View{
 }
 
 #Preview {
-    MedicationRow(medicine: Medication(id: 1, medicineName: "Medicine A", reminderTime: [ReminderTime(id: 1, time: Date(), isTaken: false)], isDosedTracking: false), viewModel: MedicationListViewModel())}
+    MedicationRow(medicine: Medication(id: 1, medicineName: "Medicine A", reminderTime: [ReminderTime(id: 1, time: Date(), isTaken: false, notificationID: "nil")], isDosedTracking: false, medicationDate: Date()), viewModel: MedicationListViewModel())}
+
+

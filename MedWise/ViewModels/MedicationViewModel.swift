@@ -27,11 +27,14 @@ class MedicationListViewModel: ObservableObject {
         "3 days before medicine runs out",
         "The same day medicine runs out"
     ]
+    
     //     for update
     @Published var dataToBeUpdate: [ReminderTime]
     @Published var isEditMode: Bool = false
     @Published var selectedIndex: Int = 0
     @Published var selectedMedicationId: Int = 0
+    @Published var selectedNotificationID: String = "nil"
+    @Published var notificationTime: Date = Date()
     
     func toggleAddMedication(){
         isPresented.toggle()
@@ -40,14 +43,11 @@ class MedicationListViewModel: ObservableObject {
     
     
     internal init() {
-        
-        dataToBeUpdate = [ReminderTime(id: 1, time: Date(), isTaken: true)]
+        dataToBeUpdate = [ReminderTime(id: 1, time: Date(), isTaken: true, notificationID: "nil")]
         reminderOption = reminderOptions[0]
         fetchMedications()
-        
+        checkAndUpdateMedicationStatus()
       
-        
-        
     }
     
     func fetchMedications() {
@@ -56,14 +56,31 @@ class MedicationListViewModel: ObservableObject {
     }
     
     func addMedication(medicineName: String, reminderTime: [Date], isDosedTracking: Bool, numberOfTablets: Int?, reminderOption: String? ) {
-        DatabaseHelper.shared.addMedication(medicineName: medicineName, reminderTime: reminderTime, isDosedTracking: isDosedTracking, numberOfTablets: numberOfTablets, reminderOption: reminderOption)
+        let generatedNotificationId = generateNotificationIdentifier(medicineName: medicineName)
+        DatabaseHelper.shared.addMedication(medicineName: medicineName, reminderTime: reminderTime, isDosedTracking: isDosedTracking, numberOfTablets: numberOfTablets, reminderOption: reminderOption, notificationID: generatedNotificationId )
         
         print("number of medicine \(isDosedTracking)")
+        scheduleNotifiction(reminderTime: reminderTime, medicineName: medicineName, notificationId: generatedNotificationId)
         fetchMedications()
     }
     
-    func updateMedication(medicineName: String, reminderTime: [ReminderTime], id: Int,isDosedTracking: Bool, numberOfTablets: Int?, reminderOption: String?  ) {
+    func generateNotificationIdentifier(medicineName: String) -> String {
+        return "\(Date())-\(medicineName)"
+    }
+
+    func scheduleNotifiction(reminderTime: [Date], medicineName: String, notificationId: String){
+        
+        for (index, date) in reminderTime.enumerated(){
+            NotificationViewModel().scheduleDailyNotification(medicineName: medicineName, time: date, notificationID: notificationId + "\(index+1)")
+        }
+        
+    }
+    
+    func updateMedication(medicineName: String, reminderTime: [ReminderTime], id: Int,isDosedTracking: Bool, numberOfTablets: Int?, reminderOption: String?, notificationID: String, notificationTime: Date  ) {
         DatabaseHelper.shared.updateMedication(id: id, newMedicineName: medicineName, newReminderTime: reminderTime, isDosedTracking: isDosedTracking, numberOfTablets: numberOfTablets, reminderOption: reminderOption)
+        
+        NotificationViewModel().cancelNotifications(notificationID: notificationID )
+        NotificationViewModel().scheduleDailyNotification(medicineName: medicineName, time: notificationTime, notificationID: notificationID)
         fetchMedications()
         
     }
@@ -73,10 +90,27 @@ class MedicationListViewModel: ObservableObject {
         fetchMedications()
     }
     
-    func deleteMedication(mainId: Int, reminderTimeId: Int){
+    func deleteMedication(mainId: Int, reminderTimeId: Int, notificationID: String){
         DatabaseHelper.shared.deleteReminderTime(medicationId: mainId, reminderTimeId: reminderTimeId)
+        NotificationViewModel().cancelNotifications(notificationID: notificationID)
         fetchMedications()
+    }
+    
+    func checkAndUpdateMedicationStatus() {
+        
+        guard let firstMedication = medications.first else {
+            return
+        }
+        
+        let currentDate = Date()
+        
+        if !Calendar.current.isDate(firstMedication.medicationDate, inSameDayAs: currentDate) {
+            print("Reset medication")
+            DatabaseHelper.shared.resetAllMedicationIsTaken()
+            fetchMedications()
+        }
     }
 }
     
+
 

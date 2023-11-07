@@ -6,3 +6,12 @@
 //
 
 import Foundation
+
+struct Appointment: Identifiable {
+    var id: UUID
+    var doctorName: String
+    var reason: String
+    var contactNumber: String
+    var date: Date
+    var time: Date
+}

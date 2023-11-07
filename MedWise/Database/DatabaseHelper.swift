@@ -15,6 +15,7 @@ class DatabaseHelper {
     private let db: Connection?
     private let users = Table("users")
     private let medication = Table("medication")
+    private let appointments = Table("appointments")
 
     private init() {
         let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
@@ -47,6 +48,15 @@ class DatabaseHelper {
                 table.column(Expression<Int?>("numberOfTablets"))
                 table.column(Expression<String?>("reminderOption"))
             })
+            //appointment
+                   try db!.run(appointments.create(ifNotExists: true) { table in
+                       table.column(Expression<String>("id"), primaryKey: true)
+                       table.column(Expression<String>("doctorName"))
+                       table.column(Expression<String>("reason"))
+                       table.column(Expression<String>("contactNumber"))
+                       table.column(Expression<Date>("date"))
+                       table.column(Expression<Date>("time"))
+                   })
         } catch {
             print("Unable to create table: \(error)")
         }
@@ -389,6 +399,61 @@ class DatabaseHelper {
             print("Unable to reset 'isTaken' property for all medications: \(error)")
         }
     }
+    
+    // Fetch all appointments from the database
+    func fetchAppointments() -> [Appointment] {
+        var appointments: [Appointment] = []
+        
+        do {
+            for appointment in try db!.prepare(self.appointments) {
+                let id = UUID(uuidString: appointment[Expression<String>("id")]) ?? UUID()
+                let doctorName = appointment[Expression<String>("doctorName")]
+                let reason = appointment[Expression<String>("reason")]
+                let contactNumber = appointment[Expression<String>("contactNumber")]
+                let date = appointment[Expression<Date>("date")]
+                let time = appointment[Expression<Date>("time")]
+                
+                appointments.append(Appointment(id: id, doctorName: doctorName, reason: reason, contactNumber: contactNumber, date: date, time: time))
+            }
+        } catch {
+            print("Fetch failed: \(error)")
+        }
+        
+        return appointments
+    }
+    
+    // Insert a new appointment into the database
+    func addAppointment(appointment: Appointment) {
+        let insertQuery = appointments.insert(
+            Expression<String>("id") <- appointment.id.uuidString,
+            Expression<String>("doctorName") <- appointment.doctorName,
+            Expression<String>("reason") <- appointment.reason,
+            Expression<String>("contactNumber") <- appointment.contactNumber,
+            Expression<Date>("date") <- appointment.date,
+            Expression<Date>("time") <- appointment.time
+        )
+        
+        do {
+            try db!.run(insertQuery)
+            print("Inserted appointment")
+        } catch {
+            print("Insertion failed: \(error)")
+        }
+    }
+    
+// Function to delete an appointment from the database
+func deleteAppointment(appointmentId: UUID) {
+    do {
+        // Create a filter for the appointment to delete by matching the UUID string
+        let query = appointments.filter(Expression<String>("id") == appointmentId.uuidString)
+        // Attempt to run the delete command
+        try db?.run(query.delete())
+    } catch {
+        print("Unable to delete appointment: \(error)")
+    }
+}
+
+    
 
 
 }

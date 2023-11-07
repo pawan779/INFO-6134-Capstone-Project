@@ -22,6 +22,9 @@ class MedicationListViewModel: ObservableObject {
     @Published  var numberOfTablets: Int = 1
     @Published  var reminderOption: String
     
+    @Published var searchTerm: String = ""
+    @Published var searchedResult : [Medication] = []
+    
     let reminderOptions = [
         "1 week before medicine runs out",
         "3 days before medicine runs out",
@@ -35,6 +38,17 @@ class MedicationListViewModel: ObservableObject {
     @Published var selectedMedicationId: Int = 0
     @Published var selectedNotificationID: String = "nil"
     @Published var notificationTime: Date = Date()
+    
+
+    @Published var isFilterSheetPresented:Bool = false
+    @Published var selectedFilterData: String = ""
+    @Published var filteredData: [Medication] = []
+    @Published var minFilterVal: Int = 0
+    @Published var maxFilterVal: Int = 0
+    
+    var listData: [Medication] {
+        return selectedFilterData.isEmpty ? (searchTerm.isEmpty ? medications : searchedResult) : filteredData
+    }
     
     func toggleAddMedication(){
         isPresented.toggle()
@@ -52,6 +66,13 @@ class MedicationListViewModel: ObservableObject {
     
     func fetchMedications() {
         medications = DatabaseHelper.shared.fetchMedications()
+        if (!searchTerm.isEmpty){
+            filterSearchResults()
+        }
+        
+        if(!selectedFilterData.isEmpty){
+            filterMedication(minVal: minFilterVal, maxVal: maxFilterVal)
+        }
         print(medications)
     }
     
@@ -109,6 +130,34 @@ class MedicationListViewModel: ObservableObject {
             DatabaseHelper.shared.resetAllMedicationIsTaken()
             fetchMedications()
         }
+    }
+    
+    func filterSearchResults() {
+        selectedFilterData = ""
+        searchedResult = medications.filter({$0.medicineName.localizedCaseInsensitiveContains(searchTerm)}
+        )
+    }
+    
+    func filterMedication(minVal: Int, maxVal: Int ){
+        isFilterSheetPresented = false
+        let dataToBeSearched = !searchTerm.isEmpty ? searchedResult : medications
+        filteredData = dataToBeSearched.filter { medication in
+                if let numberOfTablets = medication.numberOfTablets {
+//                    return numberOfTablets > 5
+                    
+                    if (minVal != 0 && maxVal != 0){
+                        return numberOfTablets >= minVal && numberOfTablets <= maxVal
+                    }
+                    else if (maxVal != 0 && minVal == 0){
+                        return numberOfTablets > maxVal
+                    }
+                    else{
+                        return numberOfTablets < minVal && medication.isDosedTracking
+                    }
+                  
+                }
+                return false
+            }
     }
 }
     

@@ -12,6 +12,7 @@
 		6E7DA4712AE9FE7D000696B9 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7DA4702AE9FE7D000696B9 /* SettingsView.swift */; };
 		6E7DA4732AE9FE94000696B9 /* ProfileRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7DA4722AE9FE94000696B9 /* ProfileRow.swift */; };
 		AE3C3C482AE9FAE200FCBF37 /* MedicationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3C3C472AE9FAE200FCBF37 /* MedicationRow.swift */; };
+		DDF5F02C2AF9C85A000D8F76 /* MedicationFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF5F02B2AF9C85A000D8F76 /* MedicationFilterView.swift */; };
 		FD2CF9BE2AED872C00CF6FBC /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2CF9BD2AED872C00CF6FBC /* NotificationViewModel.swift */; };
 		FDB87D2C2AE4200500B9B6A5 /* DatabaseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB87D2B2AE4200500B9B6A5 /* DatabaseHelper.swift */; };
 		FDB87D2E2AE4201D00B9B6A5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB87D2D2AE4201D00B9B6A5 /* User.swift */; };
@@ -43,6 +44,7 @@
 		6E7DA4702AE9FE7D000696B9 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		6E7DA4722AE9FE94000696B9 /* ProfileRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRow.swift; sourceTree = "<group>"; };
 		AE3C3C472AE9FAE200FCBF37 /* MedicationRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicationRow.swift; sourceTree = "<group>"; };
+		DDF5F02B2AF9C85A000D8F76 /* MedicationFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicationFilterView.swift; sourceTree = "<group>"; };
 		FD2CF9BD2AED872C00CF6FBC /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
 		FDB87D2B2AE4200500B9B6A5 /* DatabaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseHelper.swift; sourceTree = "<group>"; };
 		FDB87D2D2AE4201D00B9B6A5 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -90,6 +92,7 @@
 				4A8A4B982AE9F5FF002C7239 /* TrackView.swift */,
 				4A8A4B9A2AE9F61A002C7239 /* DoseTrackerView.swift */,
 				AE3C3C472AE9FAE200FCBF37 /* MedicationRow.swift */,
+				DDF5F02B2AF9C85A000D8F76 /* MedicationFilterView.swift */,
 			);
 			path = Medication;
 			sourceTree = "<group>";
@@ -307,6 +310,7 @@
 				FDB87D342AE4205500B9B6A5 /* NotificationManager.swift in Sources */,
 				FDB87D3A2AE420FD00B9B6A5 /* AppointmentViewModel.swift in Sources */,
 				AE3C3C482AE9FAE200FCBF37 /* MedicationRow.swift in Sources */,
+				DDF5F02C2AF9C85A000D8F76 /* MedicationFilterView.swift in Sources */,
 				FDB87D5D2AE59DC400B9B6A5 /* MedicationReminderView.swift in Sources */,
 				FDB87D3E2AE4250800B9B6A5 /* MedicationListView.swift in Sources */,
 				FDB87D2C2AE4200500B9B6A5 /* DatabaseHelper.swift in Sources */,

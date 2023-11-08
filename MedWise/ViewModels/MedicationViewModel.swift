@@ -45,7 +45,6 @@ class MedicationListViewModel: ObservableObject {
         reminderOption = reminderOptions[0]
         fetchMedications()
         
-      
         
         
     }

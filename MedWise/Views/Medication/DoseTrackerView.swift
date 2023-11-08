@@ -88,7 +88,6 @@ struct DoseTrackerView: View {
             
             viewModel.toggleAddMedication()
 
-
         }
         else{
             

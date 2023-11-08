@@ -31,11 +31,13 @@ class DatabaseHelper {
             try db!.run(users.create(ifNotExists: true) { table in
                 table.column(Expression<Int>("id"), primaryKey: .autoincrement)
                 table.column(Expression<String>("name"))
-                table.column(Expression<String>("sex"))
-                table.column(Expression<Double>("height"))
-                table.column(Expression<Double>("weight"))
-                table.column(Expression<String>("medicineName"))
-                table.column(Expression<Blob>("remainderTime"))
+                table.column(Expression<String>("email"))
+                table.column(Expression<String>("phone"))
+                table.column(Expression<String>("gender"))
+                table.column(Expression<String>("age"))
+                table.column(Expression<String>("weight"))
+//                table.column(Expression<String>("medicineName"))
+//                table.column(Expression<Blob>("remainderTime"))
                 
             })
             try db!.run(medication.create(ifNotExists: true) { table in
@@ -51,10 +53,107 @@ class DatabaseHelper {
         }
     }
     
-    func addUser(name: String, sex: String, height: Double, weight: Double) {
-           // Implement the code for adding a user to the 'users' table
-       }
+    func addUser(
+        name: String, 
+        email : String?,
+        phone : String?,
+        gender: String,
+        age: String,
+        weight: String
+        )
+    {
+        do {
+            let insert = self.users.insert(
+                Expression<String>("name") <- name,
+                Expression<String?>("email") <- email ?? "" ,
+                Expression<String?>("phone") <- phone ?? "",
+                Expression<String>("gender") <- gender,
+                Expression<String>("age") <- age,
+                Expression<String>("weight") <- weight
+            )
+            try db?.run(insert)
+            print("User table added",insert)
+        } catch {
+            print("Unable to add user: \(error)")
+        }
+    }
+    
+    func updateUserProfile(id: Int, name: String, email: String?, phone: String?, gender: String, age: String, weight: String) {
+        do {
+            let user = self.users.filter(Expression<Int>("id") == id)
+            let update = user.update(
+                Expression<String>("name") <- name,
+                Expression<String?>("email") <- email,
+                Expression<String?>("phone") <- phone,
+                Expression<String>("gender") <- gender,
+                Expression<String>("age") <- age,
+                Expression<String>("weight") <- weight
+            )
+            if try db?.run(update) ?? 1 > 0 {
+                print("User profile updated successfully")
+            } else {
+                print("No user found with the provided ID")
+            }
+        } catch {
+            print("Unable to update user profile: \(error)")
+        }
+    }
+    
+    func deleteUser(id: Int) {
+        do {
+            let userToDelete = users.filter(Expression<Int>("id") == id)
+            try db?.run(userToDelete.delete())
+        } catch {
+            print("Unable to delete user: \(error)")
+        }
+    }
 
+
+    // worked
+    func getUser() -> User? {
+        do {
+            // GET LASTEST USER data
+            let query = users.order(Expression<Int>("id").desc).limit(1) // Order by ID in descending order and limit to 1 result
+            if let row = try db?.pluck(query) {
+                let id = row[Expression<Int>("id")]
+                let name = row[Expression<String>("name")]
+                let email = row[Expression<String?>("email")]
+                let phone = row[Expression<String?>("phone")]
+                let gender = row[Expression<String>("gender")]
+                let age = row[Expression<String>("age")]
+                let weight = row[Expression<String>("weight")]
+
+                return User(id: id, name: name, email: email, phone: phone, gender: gender, age: age, weight: weight)
+            }
+        } catch {
+            print("Unable to fetch last user: \(error)")
+        }
+        return nil
+    }
+    
+    
+    
+//    func getUser() -> User? {
+//        do {
+//            if let row = try db?.pluck(users) {
+//                let id = row[Expression<Int>("id")]
+//                let name = row[Expression<String>("name")]
+//                let email = row[Expression<String?>("email")]
+//                let phone = row[Expression<String?>("phone")]
+//                let gender = row[Expression<String>("gender")]
+//                let age = row[Expression<String>("age")]
+//                let weight = row[Expression<String>("weight")]
+//
+//                return User(id: id, name: name, email: email, phone: phone, gender: gender, age: age, weight: weight)
+//            }
+//        } catch {
+//            print("Unable to fetch user: \(error)")
+//        }
+//
+//        return nil
+//    }
+
+    
     func addMedication(
         medicineName: String,
         reminderTime: [Date],
@@ -146,7 +245,6 @@ class DatabaseHelper {
         return medications
     }
 
-    
     func updateMedication(id: Int, newMedicineName: String, newReminderTime: [ReminderTime]) {
         do {
             try db?.transaction {

@@ -19,8 +19,7 @@ struct TrackView: View {
                         .font(.headline)
                         .foregroundColor(.white)
                         .padding(.top, 50)
-                    
-
+                
                     
                     VStack(spacing: 20) {
                         

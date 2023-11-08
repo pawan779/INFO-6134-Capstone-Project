@@ -12,7 +12,6 @@ struct MedicationRow: View {
     @ObservedObject var viewModel: MedicationListViewModel
     var body: some View {
     
-   
             ZStack{
                 VStack{
                     ForEach(Array(medicine.reminderTime.enumerated()), id: \.1.id) { (index, reminderTime) in

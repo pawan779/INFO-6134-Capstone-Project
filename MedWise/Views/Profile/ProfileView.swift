@@ -1,71 +1,103 @@
 //
 //  ProfileView.swift
 //  MedWise
-//
+// 
 //  Created by Cyrus Shakya on 2023-10-16.
 //
 
 import SwiftUI
 
 struct ProfileView: View {
-//    @State private var user = User()
+    //    @State private var user = User()
+    
+    @ObservedObject var viewModel: ProfileViewModel
+    
+    @Environment(\.presentationMode) var presentationMode
+    
+    @State private var shouldNavigateToSettings = false
+
+    @State private var isDeleteProfileAlertPresented = false
+    @State private var isEditProfileViewPresented = false
+    
+    func deleteProfile() {
+        
+        print("deleted clicked !!")
+        print(viewModel.loadUserFromDatabase().id)
+        viewModel.deleteUser(id: viewModel.loadUserFromDatabase().id)
+        
+        // Navigate to the "Settings" view
+        self.shouldNavigateToSettings = true
+    }
     
     var body: some View {
-        NavigationView {
-                   List {
-                       Section(header: Text("Profile Information")) {
-                           ProfileRow(systemName: "person.circle.fill", title: "Name", value: "John Doe")
-                           ProfileRow(systemName: "envelope.fill", title: "Email", value: "")
-                           ProfileRow(systemName: "phone.fill", title: "Phone", value: "")
-                       }
-                       
-                       Section(header: Text("Additional Information")) {
-                           ProfileRow(systemName: "figure.dress.line.vertical.figure", title: "Gender", value: "Male")
-                           ProfileRow(systemName: "birthday.cake.fill", title: "Age", value: "23")
-                           ProfileRow(systemName: "scalemass.fill", title: "Weight (in kg)", value: "65")
-                           
-                       }
-                       
-                      
-                   }
-                   .listStyle(SidebarListStyle())
-                   .navigationTitle("Profile")
+        
+        List {
             
-//            HStack {
-//                Button(action: {
-//                    // Button 1 action
-//                }) {
-//                    Text("Edit profile")
-//                        .font(.title3)
-//                        .padding()
-//                        .frame(minWidth: 0, maxWidth: .infinity)
-//                        .background(Color.blue)
-//                        .cornerRadius(15)
-//                        .foregroundColor(.white)
-//                }
-//
-//                Button(action: {
-//                    // Button 2 action
-//                }) {
-//                    Text("Delete data")
-//                        .font(.title3)
-//                        .padding()
-//                        .frame(minWidth: 0, maxWidth: .infinity)
-//                        .background(Color.red)
-//                        .cornerRadius(15)
-//                        .foregroundColor(.white)
-//                }
-//            }
-           
-               }
+            Section(header: Text("Profile Information")) {
+                ProfileRow(systemName: "person.circle.fill", title: "Name", value: viewModel.loadUserFromDatabase().name)
+                ProfileRow(systemName: "envelope.fill", title: "Email", value: viewModel.loadUserFromDatabase().email ?? "")
+                ProfileRow(systemName: "phone.fill", title: "Phone", value:viewModel.user.phone ??  "")
+            }
+            
+            Section(header: Text("Additional Information")) {
+                ProfileRow(systemName: "figure.dress.line.vertical.figure", title: "Gender", value: viewModel.loadUserFromDatabase().gender)
+                ProfileRow(systemName: "birthday.cake.fill", title: "Age", value: viewModel.loadUserFromDatabase().age)
+                ProfileRow(systemName: "scalemass.fill", title: "Weight (in kg)", value: viewModel.loadUserFromDatabase().weight)
+                
+            }
+            
+            NavigationLink(
+                destination: EditProfileView(viewModel: viewModel),
+                label: {
+                    Text("Edit profile")
+                        .font(.title3)
+                        .padding()
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                        .background(Color.blue)
+                        .cornerRadius(15)
+                        .foregroundColor(.white)
+                }
+                
+            )
+            .buttonStyle(PlainButtonStyle())
+            
+            VStack{
+                Button(action: {
+                    // Show the confirmation dialog when the button is tapped
+                    isDeleteProfileAlertPresented = true
+                }) {
+                    Text("Delete Profile").font(.title3)
+                        .padding()
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                        .background(Color.red)
+                        .cornerRadius(15)
+                        .foregroundColor(.white)
+             
+                }
+              
+            }
+          
+        }
+        .listStyle(SidebarListStyle())
+        .navigationTitle("Profile")
+        .alert(isPresented: $isDeleteProfileAlertPresented) {
+            Alert(
+                title: Text("Delete Profile"),
+                message: Text("Are you sure you want to delete your profile? This action cannot be undone."),
+                primaryButton: .cancel(),
+                secondaryButton: .destructive(Text("Delete"), action: {
+                    deleteProfile()
+                })
+            )
+        }
         
-       
-
         
-    
+        
+        
+        
     }
 }
 
 #Preview {
-    ProfileView()
+    ProfileView(viewModel:ProfileViewModel(user: User(id: 1, name: "John Doe", gender: "female", age: "22", weight: "56")))
 }

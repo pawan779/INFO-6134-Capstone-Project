@@ -11,11 +11,8 @@ struct MedicationListView: View {
     
     @ObservedObject var viewModel = MedicationListViewModel()
     
-   
-    
     func fetchMedicine(){
         viewModel.fetchMedications()
-       
     }
     
     var body: some View {

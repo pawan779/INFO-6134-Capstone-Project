@@ -2,7 +2,7 @@
 //  AddAppointmentView.swift
 //  MedWise
 //
-//  Created by Anup Saud on 2023-11-07.
+//  Created by Anup Saud on 2023-11-06.
 //
 
 import SwiftUI
@@ -68,18 +68,20 @@ struct AddAppointmentView: View {
                             Text("Reason for appointment is required.")
                                 .foregroundColor(.red)
                         }
-
                         TextField("Contact Number", text: $contactNumber)
                             .foregroundColor(.black)
                             .keyboardType(.numberPad)
                             .onChange(of: contactNumber) {
-                                isContactNumberValid = !contactNumber.isEmpty // Validate the contact number
+                                validateContactNumber()
                             }
-                           
+
                             .padding()
                             .background(Color.white)
                             .cornerRadius(10)
                             .shadow(radius: 1)
+
+
+
                         if !isContactNumberValid {
                             Text("Valid contact number is required.")
                                 .foregroundColor(.red)
@@ -148,12 +150,13 @@ struct AddAppointmentView: View {
     }
     
     private func validateContactNumber() {
-        let digits = contactNumber.filter { "0"..."9" ~= $0 }
-        let nonNumericCharacters = contactNumber.filter { !("0"..."9" ~= $0) }
-
-        // Check if there are any characters other than digits
-        isContactNumberValid = digits.count >= 10 && digits.count <= 15 && nonNumericCharacters.isEmpty
+        // Check for an optional plus sign followed by 9 to 14 digits (most country codes plus phone numbers will fall within this range)
+        let phoneRegex = "^(\\+)?[0-9]{9,14}$"
+        let phonePredicate = NSPredicate(format: "SELF MATCHES %@", phoneRegex)
+        isContactNumberValid = phonePredicate.evaluate(with: contactNumber)
     }
+
+
 
     
     private func isAllInputValid() -> Bool {

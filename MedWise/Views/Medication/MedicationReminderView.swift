@@ -39,8 +39,7 @@ struct MedicationReminderView: View {
                     
                     Spacer()
                     
-                    
-                    
+            
                     NavigationLink(
                         destination: TrackView(viewModel: viewModel),
                         label: {

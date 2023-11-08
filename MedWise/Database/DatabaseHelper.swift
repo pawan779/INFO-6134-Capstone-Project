@@ -304,6 +304,7 @@ class DatabaseHelper {
 
                     // Decrement 'numberOfTablets' if 'isDosedTracking' is true
                     if isDosedTracking && numberOfTablets != nil {
+                        
                         numberOfTablets -= 1
                     }
 
@@ -326,6 +327,8 @@ class DatabaseHelper {
             print("Error while updating medication's isTaken property: \(error)")
         }
     }
+    
+    
 
 
 

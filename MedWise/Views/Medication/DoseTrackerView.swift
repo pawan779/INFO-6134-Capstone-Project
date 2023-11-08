@@ -88,6 +88,8 @@ struct DoseTrackerView: View {
             
             viewModel.toggleAddMedication()
             viewModel.medicineName = ""
+            
+            viewModel.clear()
 
         }
         else{
@@ -96,6 +98,7 @@ struct DoseTrackerView: View {
             
             viewModel.toggleAddMedication()
             viewModel.medicineName = ""
+            viewModel.clear()
         }
     }
     

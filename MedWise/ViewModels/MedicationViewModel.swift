@@ -40,7 +40,7 @@ class MedicationListViewModel: ObservableObject {
     @Published var notificationTime: Date = Date()
 
 
-    @Published var isFilterSheetPresented:Bool = false
+    @Published var isFilterSheetPresented: Bool = false
     @Published var selectedFilterData: String = ""
     @Published var filteredData: [Medication] = []
     @Published var minFilterVal: Int = 0
@@ -77,9 +77,17 @@ class MedicationListViewModel: ObservableObject {
         fetchMedications()
         checkAndUpdateMedicationStatus()
 
-
-
-
+    }
+    
+    func clear(){
+        medicineName = ""
+        selectedFrequency = 1
+        dataToBeUpdate = [ReminderTime(id: 1, time: Date(), isTaken: true, notificationID: "nil")]
+        reminderOption = reminderOptions[0]
+        searchTerm = ""
+        selectedFilterData = ""
+        selectedSortedValue = ""
+        numberOfTablets = 1
     }
 
     func fetchMedications() {
@@ -100,8 +108,6 @@ class MedicationListViewModel: ObservableObject {
     func addMedication(medicineName: String, reminderTime: [Date], isDosedTracking: Bool, numberOfTablets: Int?, reminderOption: String? ) {
         let generatedNotificationId = generateNotificationIdentifier(medicineName: medicineName)
         DatabaseHelper.shared.addMedication(medicineName: medicineName, reminderTime: reminderTime, isDosedTracking: isDosedTracking, numberOfTablets: numberOfTablets, reminderOption: reminderOption, notificationID: generatedNotificationId )
-
-        print("number of medicine \(isDosedTracking)")
         scheduleNotifiction(reminderTime: reminderTime, medicineName: medicineName, notificationId: generatedNotificationId)
         fetchMedications()
     }

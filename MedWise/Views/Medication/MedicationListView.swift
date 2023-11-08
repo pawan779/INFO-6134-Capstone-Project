@@ -84,6 +84,7 @@ struct MedicationListView: View {
                         Button(action: {
                             viewModel.toggleAddMedication()
                             viewModel.isEditMode = false
+                            viewModel.clear()
                         }) {
                             Image(systemName: "plus.circle.fill")
                                                        .resizable()

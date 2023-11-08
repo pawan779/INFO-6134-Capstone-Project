@@ -25,8 +25,7 @@ struct ProfileView: View {
         print(viewModel.loadUserFromDatabase().id)
         viewModel.deleteUser(id: viewModel.loadUserFromDatabase().id)
         
-        // Navigate to the "Settings" view
-        self.shouldNavigateToSettings = true
+        
     }
     
     var body: some View {
@@ -46,36 +45,27 @@ struct ProfileView: View {
                 
             }
             
-            NavigationLink(
-                destination: EditProfileView(viewModel: viewModel),
-                label: {
-                    Text("Edit profile")
-                        .font(.title3)
-                        .padding()
-                        .frame(minWidth: 0, maxWidth: .infinity)
-                        .background(Color.blue)
-                        .cornerRadius(15)
-                        .foregroundColor(.white)
-                }
-                
-            )
-            .buttonStyle(PlainButtonStyle())
             
-            VStack{
-                Button(action: {
-                    // Show the confirmation dialog when the button is tapped
-                    isDeleteProfileAlertPresented = true
-                }) {
-                    Text("Delete Profile").font(.title3)
-                        .padding()
-                        .frame(minWidth: 0, maxWidth: .infinity)
-                        .background(Color.red)
-                        .cornerRadius(15)
-                        .foregroundColor(.white)
-             
-                }
-              
-            }
+           
+            
+            
+            
+            
+//            VStack{
+//                Button(action: {
+//                    // Show the confirmation dialog when the button is tapped
+//                    isDeleteProfileAlertPresented = true
+//                }) {
+//                    Text("Delete Profile").font(.title3)
+//                        .padding()
+//                        .frame(minWidth: 0, maxWidth: .infinity)
+//                        .background(Color.red)
+//                        .cornerRadius(15)
+//                        .foregroundColor(.white)
+//             
+//                }
+//              
+//            }
           
         }
         .listStyle(SidebarListStyle())
@@ -91,6 +81,24 @@ struct ProfileView: View {
             )
         }
         
+        
+        
+        NavigationLink(
+            destination: EditProfileView(viewModel: viewModel),
+            label: {
+                Text("Edit profile")
+                    .padding()
+                    .frame(minWidth: 0, maxWidth: .infinity)
+                    .cornerRadius(15)
+                    .foregroundColor(.white)
+                    .background(.blue)
+                    .cornerRadius(10)
+            }
+            
+        )
+        .buttonStyle(PlainButtonStyle())
+        .padding()
+        .padding(.bottom,60)
         
         
         

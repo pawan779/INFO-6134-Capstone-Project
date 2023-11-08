@@ -57,18 +57,24 @@ struct TrackView: View {
     
 func addMedicine(){
     
-    //        if(viewModel.isEditMode){
-    //
-    //            viewModel.dataToBeUpdate[viewModel.selectedIndex].time = viewModel.selectedTimes[0]
-    //
-    //            viewModel.updateMedication(medicineName: viewModel.medicineName, reminderTime:viewModel.dataToBeUpdate, id: viewModel.selectedMedicationId )
-    //
-    //
-    //        }
-    //        else{
+            if(viewModel.isEditMode){
+    
+                viewModel.dataToBeUpdate[viewModel.selectedIndex].time = viewModel.selectedTimes[0]
+
+                viewModel.updateMedication(medicineName: viewModel.medicineName, reminderTime:viewModel.dataToBeUpdate, id: viewModel.selectedMedicationId,  isDosedTracking: false, numberOfTablets: nil, reminderOption: nil, notificationID: viewModel.selectedNotificationID, notificationTime: viewModel.notificationTime )
+                
+                viewModel.toggleAddMedication()
+                viewModel.medicineName = ""
+    
+    
+                viewModel.clear()
+            }
+            else{
     viewModel.addMedication(medicineName: viewModel.medicineName, reminderTime: viewModel.selectedTimes, isDosedTracking: false, numberOfTablets: nil, reminderOption: nil )
     viewModel.toggleAddMedication()
-    //        }
+                
+                viewModel.clear()
+            }
 }
 }
 

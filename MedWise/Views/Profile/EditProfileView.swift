@@ -148,21 +148,7 @@ struct EditProfileView: View {
             }
             
             
-            Button("Update") {
-                if (isInputValid || isEmailValid || isPhoneValid || isAgeValid || isWeightValid) {
-                    isShowingAlert = true //show error
-                } else {
-                    viewModel.updateUserProfile(name: name, email: email, phone: phone, gender: selectedGender.rawValue, age: age, weight: weight)
-                    
-                    isNavigationActive = true
-                }
-            }
-            .frame(maxWidth: .infinity)
-            .font(.title)
-            .foregroundColor(.white)
-            .background(Color.blue)
-            .cornerRadius(8)
-            .padding()
+            
     
         }
         .background(
@@ -177,7 +163,24 @@ struct EditProfileView: View {
                 dismissButton: .default(Text("OK"))
             )
         }
+        Button("Update") {
+            if (isInputValid || isEmailValid || isPhoneValid || isAgeValid || isWeightValid) {
+                isShowingAlert = true //show error
+            } else {
+                viewModel.updateUserProfile(name: name, email: email, phone: phone, gender: selectedGender.rawValue, age: age, weight: weight)
+                
+                isNavigationActive = true
+            }
+        }
+        .frame(maxWidth: .infinity,maxHeight: 50)
+        .foregroundColor(.white)
+        .background(Color.blue)
+        .cornerRadius(8)
+        .padding()
+        .padding(.bottom,60)
+        
     }
+    
 }
 
 #Preview {

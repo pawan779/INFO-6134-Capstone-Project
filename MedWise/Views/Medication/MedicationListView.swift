@@ -45,14 +45,15 @@ struct MedicationListView: View {
                         
                        
                         Button(action: {
-                            if viewModel.selectedFilterData.isEmpty {
+                            if viewModel.selectedFilterData.isEmpty && viewModel.selectedSortedValue.isEmpty {
                                 viewModel.isFilterSheetPresented.toggle()
                             } else {
                                 viewModel.selectedFilterData = ""
+                                viewModel.selectedSortedValue = ""
                             }
                         }) {
-                            Text("\(viewModel.selectedFilterData.isEmpty ? "Filter" : "Clear")")
-                            Image(systemName: viewModel.selectedFilterData.isEmpty ? "chevron.down" : "xmark.circle.fill" )
+                            Text("\((viewModel.selectedFilterData.isEmpty && viewModel.selectedSortedValue.isEmpty) ? "Filter" : "Clear")")
+                            Image(systemName: (viewModel.selectedFilterData.isEmpty && viewModel.selectedSortedValue.isEmpty) ? "chevron.down" : "xmark.circle.fill" )
                                 .padding(.top, 6)
                         }
                         .padding(.trailing, 10)
@@ -63,19 +64,7 @@ struct MedicationListView: View {
 
                         })
                     }
-//                    if (!viewModel.selectedFilterData.isEmpty) {
-//                        HStack{
-//                            Text("Fitler: \(viewModel.selectedFilterData)")
-//                            
-//                            Button(action: {
-//                                viewModel.selectedFilterData = ""
-//                            }) {
-//                                Image(systemName: "xmark.circle.fill")
-//                                    .foregroundColor(.gray)
-//                                    .padding(.trailing, 20)
-//                            }
-//                        }
-//                    }
+
              
                     ScrollView
                     {
@@ -112,130 +101,6 @@ struct MedicationListView: View {
     }
 }
 
-//struct BottomSheetView: View {
-//    
-//    
-//    var buttonSize: CGSize = CGSize(width: 100, height: 30)
-//    
-//    var body: some View{
-//        
-//        ZStack {
-//            Color.customBackgroundColor.ignoresSafeArea()
-//            
-//            VStack{
-//                
-//                Text("Medicine Count")
-//                    .font(.headline)
-//                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-//                    .padding(.bottom,10)
-//                    .foregroundColor(.gray)
-//                
-//                HStack{
-//                    Button(action: {
-//                        selectedMedicineCount = 5
-//                    }) {
-//                        ZStack {
-//                            Rectangle()
-//                                .fill(Color.red)
-//                                .frame(width: buttonSize.width, height: buttonSize.height)
-//                                .cornerRadius(8)
-//                            
-//                            Text(" < 5")
-//                                .font(.headline)
-//                                .fontWeight(.bold)
-//                                .foregroundColor(.white)
-//                        }
-//                    }
-//                    
-//                    Button(action: {
-//                    }) {
-//                        ZStack {
-//                            Rectangle()
-//                                .fill(Color.yellow)
-//                                .frame(width: buttonSize.width, height: buttonSize.height)
-//                                .cornerRadius(8)
-//                            
-//                            Text("5 - 10")
-//                                .font(.headline)
-//                                .fontWeight(.bold)
-//                                .foregroundColor(.white)
-//                        }
-//                    }
-//                    
-//                    Button(action: {
-//                    }) {
-//                        ZStack {
-//                            Rectangle()
-//                                .fill(Color.green)
-//                                .frame(width: buttonSize.width, height: buttonSize.height)
-//                                .cornerRadius(8)
-//                            
-//                            Text("10 >")
-//                                .font(.headline)
-//                                .fontWeight(.bold)
-//                                .foregroundColor(.white)
-//                        }
-//                    }
-//                }
-//                .padding(.bottom,30)
-//                
-//                Text("Medicine SortBy")
-//                    .font(.headline)
-//                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-//                    .padding(.bottom,10)
-//                    .foregroundColor(.gray)
-//                
-//                
-//                HStack{
-//                    Button(action: {
-//                    }) {
-//                        ZStack {
-//                            Rectangle()
-//                                .fill(Color.gray)
-//                                .frame(width: buttonSize.width, height: buttonSize.height)
-//                                .cornerRadius(8)
-//                            
-//                            Text("Morning")
-//                                .font(.headline)
-//                                .fontWeight(.bold)
-//                                .foregroundColor(.white)
-//                        }
-//                    }
-//                    
-//                    Button(action: {
-//                    }) {
-//                        ZStack {
-//                            Rectangle()
-//                                .fill(Color.gray)
-//                                .frame(width: buttonSize.width, height: buttonSize.height)
-//                                .cornerRadius(8)
-//                            
-//                            Text("Day")
-//                                .font(.headline)
-//                                .fontWeight(.bold)
-//                                .foregroundColor(.white)
-//                        }
-//                    }
-//                    
-//                    Button(action: {
-//                    }) {
-//                        ZStack {
-//                            Rectangle()
-//                                .fill(Color.gray)
-//                                .frame(width: buttonSize.width, height: buttonSize.height)
-//                                .cornerRadius(8)
-//                            
-//                            Text("Evening")
-//                                .font(.headline)
-//                                .fontWeight(.bold)
-//                                .foregroundColor(.white)
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-//}
 
 
 #Preview {

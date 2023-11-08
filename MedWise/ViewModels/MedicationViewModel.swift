@@ -45,9 +45,24 @@ class MedicationListViewModel: ObservableObject {
     @Published var filteredData: [Medication] = []
     @Published var minFilterVal: Int = 0
     @Published var maxFilterVal: Int = 0
+    @Published var sortedData: [Medication] = []
+    @Published var selectedSortedValue: String = ""
     
     var listData: [Medication] {
-        return selectedFilterData.isEmpty ? (searchTerm.isEmpty ? medications : searchedResult) : filteredData
+//        return selectedFilterData.isEmpty ? (searchTerm.isEmpty ? medications : searchedResult) : filteredData
+        
+        if(!selectedFilterData.isEmpty){
+            return filteredData
+        }
+        else if (!selectedSortedValue.isEmpty){
+            return sortedData
+        }
+        else if (!searchTerm.isEmpty){
+            return filteredData
+        }
+        else{
+            return medications
+        }
     }
     
     func toggleAddMedication(){
@@ -73,7 +88,10 @@ class MedicationListViewModel: ObservableObject {
         if(!selectedFilterData.isEmpty){
             filterMedication(minVal: minFilterVal, maxVal: maxFilterVal)
         }
-        print(medications)
+        
+        if(!selectedSortedValue.isEmpty){
+            sortMedication(filterMode: selectedSortedValue)
+        }
     }
     
     func addMedication(medicineName: String, reminderTime: [Date], isDosedTracking: Bool, numberOfTablets: Int?, reminderOption: String? ) {
@@ -134,11 +152,15 @@ class MedicationListViewModel: ObservableObject {
     
     func filterSearchResults() {
         selectedFilterData = ""
+        selectedSortedValue = ""
         searchedResult = medications.filter({$0.medicineName.localizedCaseInsensitiveContains(searchTerm)}
         )
     }
     
+
+    
     func filterMedication(minVal: Int, maxVal: Int ){
+        selectedSortedValue = ""
         isFilterSheetPresented = false
         let dataToBeSearched = !searchTerm.isEmpty ? searchedResult : medications
         filteredData = dataToBeSearched.filter { medication in
@@ -159,7 +181,45 @@ class MedicationListViewModel: ObservableObject {
                 return false
             }
     }
-}
     
+    func sortMedication(filterMode: String) {
+        selectedFilterData = ""
+        isFilterSheetPresented = false
+        func isTimeInRange(date: Date, filterMode: String) -> Bool {
+            let calendar = Calendar.current
+            switch filterMode {
+            case "Morning":
+                return calendar.component(.hour, from: date) >= 0 && calendar.component(.hour, from: date) < 12
+            case "Day":
+                return calendar.component(.hour, from: date) >= 12 && calendar.component(.hour, from: date) < 18
+            case "Evening":
+                return calendar.component(.hour, from: date) >= 18
+            default:
+                return false
+            }
+        }
 
+     
+        sortedData = medications.map { medication in
+            let filteredReminderTime = medication.reminderTime.filter { reminderTime in
+                return isTimeInRange(date: reminderTime.time, filterMode: filterMode)
+            }
+            
+ 
+            if !filteredReminderTime.isEmpty {
+                return Medication(
+                    id: medication.id,
+                    medicineName: medication.medicineName,
+                    reminderTime: filteredReminderTime,
+                    isDosedTracking: medication.isDosedTracking,
+                    numberOfTablets: medication.numberOfTablets,
+                    reminderOption: medication.reminderOption,
+                    medicationDate: medication.medicationDate
+                )
+            }
+            
+            return nil
+        }.compactMap { $0 }
+    }
 
+}

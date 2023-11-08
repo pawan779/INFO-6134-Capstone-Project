@@ -26,8 +26,6 @@ struct MedicationFilterView: View {
                 
                 HStack {
                     FilterButtonView(label: "< 5", action: {
-                        // Handle the action for "< 5" button
-                        // Set the selectedMedicineCount accordingly
                         viewModel.filterMedication(minVal: 5, maxVal: 0)
                         viewModel.selectedFilterData = "less than 5 days"
                         viewModel.maxFilterVal = 0
@@ -36,8 +34,6 @@ struct MedicationFilterView: View {
                     }, color: .red)
 
                     FilterButtonView(label: "5 - 10", action: {
-                        // Handle the action for "5 - 10" button
-                        // Set the selectedMedicineCount accordingly
                         
                         viewModel.filterMedication(minVal: 5, maxVal: 10)
                         viewModel.selectedFilterData = "5 to 10 days"
@@ -46,8 +42,6 @@ struct MedicationFilterView: View {
                     }, color: .yellow)
 
                     FilterButtonView(label: "10 >", action: {
-                        // Handle the action for "10 >" button
-                        // Set the selectedMedicineCount accordingly
                         viewModel.filterMedication(minVal: 0, maxVal: 10)
                         viewModel.selectedFilterData = "more than 10 days"
                         
@@ -65,18 +59,17 @@ struct MedicationFilterView: View {
                 
                 HStack {
                     SortButtonView(label: "Morning", action: {
-                        // Handle the action for "Morning" button
-                        // Implement the functionality for sorting by morning
+                        viewModel.sortMedication(filterMode: "Morning")
+                        viewModel.selectedSortedValue = "Morning"
                     })
 
-                    SortButtonView(label: "Day", action: {
-                        // Handle the action for "Day" button
-                        // Implement the functionality for sorting by day
+                    SortButtonView(label: "Day", action: { viewModel.sortMedication(filterMode: "Day")
+                        viewModel.selectedSortedValue = "Day"
                     })
 
                     SortButtonView(label: "Evening", action: {
-                        // Handle the action for "Evening" button
-                        // Implement the functionality for sorting by evening
+                        viewModel.sortMedication(filterMode: "Evening")
+                        viewModel.selectedSortedValue = "Evening"
                     })
                 }
             }

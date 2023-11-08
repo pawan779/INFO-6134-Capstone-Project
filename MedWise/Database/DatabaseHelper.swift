@@ -31,12 +31,14 @@ class DatabaseHelper {
             try db!.run(users.create(ifNotExists: true) { table in
                 table.column(Expression<Int>("id"), primaryKey: .autoincrement)
                 table.column(Expression<String>("name"))
-                table.column(Expression<String>("sex"))
-                table.column(Expression<Double>("height"))
-                table.column(Expression<Double>("weight"))
-                table.column(Expression<String>("medicineName"))
-                table.column(Expression<Blob>("remainderTime"))
-                
+                table.column(Expression<String>("email"))
+                table.column(Expression<String>("phone"))
+                table.column(Expression<String>("gender"))
+                table.column(Expression<String>("age"))
+                table.column(Expression<String>("weight"))
+//                table.column(Expression<String>("medicineName"))
+//                table.column(Expression<Blob>("remainderTime"))
+
             })
             try db!.run(medication.create(ifNotExists: true) { table in
                 table.column(Expression<Int>("id"), primaryKey: .autoincrement)
@@ -51,10 +53,86 @@ class DatabaseHelper {
             print("Unable to create table: \(error)")
         }
     }
-    
-    func addUser(name: String, sex: String, height: Double, weight: Double) {
-           // Implement the code for adding a user to the 'users' table
-       }
+
+    func addUser(
+        name: String,
+        email : String?,
+        phone : String?,
+        gender: String,
+        age: String,
+        weight: String
+        )
+    {
+        do {
+            let insert = self.users.insert(
+                Expression<String>("name") <- name,
+                Expression<String?>("email") <- email ?? "" ,
+                Expression<String?>("phone") <- phone ?? "",
+                Expression<String>("gender") <- gender,
+                Expression<String>("age") <- age,
+                Expression<String>("weight") <- weight
+            )
+            try db?.run(insert)
+            print("User table added",insert)
+        } catch {
+            print("Unable to add user: \(error)")
+        }
+    }
+
+    func updateUserProfile(id: Int, name: String, email: String?, phone: String?, gender: String, age: String, weight: String) {
+        do {
+            let user = self.users.filter(Expression<Int>("id") == id)
+            let update = user.update(
+                Expression<String>("name") <- name,
+                Expression<String?>("email") <- email,
+                Expression<String?>("phone") <- phone,
+                Expression<String>("gender") <- gender,
+                Expression<String>("age") <- age,
+                Expression<String>("weight") <- weight
+            )
+            if try db?.run(update) ?? 1 > 0 {
+                print("User profile updated successfully")
+            } else {
+                print("No user found with the provided ID")
+            }
+        } catch {
+            print("Unable to update user profile: \(error)")
+        }
+    }
+
+    func deleteUser(id: Int) {
+        do {
+            let userToDelete = users.filter(Expression<Int>("id") == id)
+            try db?.run(userToDelete.delete())
+        } catch {
+            print("Unable to delete user: \(error)")
+        }
+    }
+
+
+    // worked
+    func getUser() -> User? {
+        do {
+            // GET LASTEST USER data
+            let query = users.order(Expression<Int>("id").desc).limit(1) // Order by ID in descending order and limit to 1 result
+            if let row = try db?.pluck(query) {
+                let id = row[Expression<Int>("id")]
+                let name = row[Expression<String>("name")]
+                let email = row[Expression<String?>("email")]
+                let phone = row[Expression<String?>("phone")]
+                let gender = row[Expression<String>("gender")]
+                let age = row[Expression<String>("age")]
+                let weight = row[Expression<String>("weight")]
+
+                return User(id: id, name: name, email: email, phone: phone, gender: gender, age: age, weight: weight)
+            }
+        } catch {
+            print("Unable to fetch last user: \(error)")
+        }
+        return nil
+    }
+
+
 
     func addMedication(
         medicineName: String,
@@ -161,7 +239,7 @@ class DatabaseHelper {
     }
 
     
-    func updateMedication(id: Int, newMedicineName: String, newReminderTime: [ReminderTime], isDosedTracking: Bool, numberOfTablets: Int?, reminderOption: String?) {
+    func updateMedication(id: Int, newMedicineName: String, newReminderTime: [ReminderTime], isDosedTracking: Bool, numberOfTablets: Int?, reminderOption: String?, notificationID: String) {
         do {
             try db?.transaction {
                 // Convert the reminderTime array to a format suitable for storage
@@ -170,7 +248,8 @@ class DatabaseHelper {
                     let dateData: [String: Any] = [
                         "time": reminderTime.time,
                         "isTaken": reminderTime.isTaken,
-                        "id": index + 1
+                        "id": index + 1,
+                        "notificationID": notificationID
                     ]
                     reminderTimeData.append(dateData)
                 }
@@ -194,35 +273,9 @@ class DatabaseHelper {
         }
     }
 
-
     
-//    func updateMedicationIsTaken(id: Int, reminderTimeID: Int, newIsTaken: Bool) {
-//        do {
-//            try db?.transaction {
-//                // Retrieve the existing medication
-//                if let existingMedication = try db?.pluck(medication.filter(Expression<Int>("id") == id)),
-//                   let existingReminderTimeData = existingMedication[Expression<Data?>("reminderTime")] {
-//                    if var reminderTimeArray = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(existingReminderTimeData) as? [[String: Any]] {
-//                        // Update the 'isTaken' property for the specific reminder time
-//                        if let index = reminderTimeArray.firstIndex(where: { $0["id"] as? Int == reminderTimeID }) {
-//                            reminderTimeArray[index]["isTaken"] = newIsTaken
-//                        }
-//
-//                        // Encode the updated reminderTimeArray
-//                        let updatedData = try NSKeyedArchiver.archivedData(withRootObject: reminderTimeArray, requiringSecureCoding: false)
-//
-//                        // Update the medication with the new reminderTime data
-//                        let update = self.medication.filter(Expression<Int>("id") == id)
-//                            .update(Expression<Data?>("reminderTime") <- updatedData)
-//
-//                        try db?.run(update)
-//                    }
-//                }
-//            }
-//        } catch {
-//            print("Unable to update medication's isTaken property: \(error)")
-//        }
-//    }
+
+
 
     func updateMedicationIsTaken(id: Int, reminderTimeID: Int, newIsTaken: Bool) {
         do {
@@ -266,22 +319,6 @@ class DatabaseHelper {
 
 
 
-//    func deleteTimeTaken(mainId: Int, reminderTimeId: Int) {
-//        do {
-//            try db?.transaction {
-//                // Create a delete statement
-//                let delete = self.medication
-//                    .filter(Expression<Int>("id") == mainId)
-//                    .filter(Expression<Int>("reminderTime.id") == reminderTimeId)
-//                    .delete()
-//
-//                try db?.run(delete)
-//            }
-//        } catch {
-//            print("Unable to delete time taken: \(error)")
-//        }
-//    }
-//
     
     func deleteReminderTime( medicationId: Int, reminderTimeId: Int) {
         do {
@@ -317,40 +354,7 @@ class DatabaseHelper {
             print("Unable to delete reminder time: \(error)")
         }
     }
-//    
-//    func resetAllMedicationIsTaken() {
-//        do {
-//            try db?.transaction {
-//                // Fetch all medications from the database
-//                for medicationRow in try db!.prepare(medication) {
-//                    let id = medicationRow[Expression<Int>("id")]
-//                    if var reminderTimeData = medicationRow[Expression<Data?>("reminderTime")] {
-//                        // Decode the reminderTimeData into an array of dictionaries
-//                        guard var reminderTimeArray = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(reminderTimeData) as? [[String: Any]] else {
-//                            continue // Skip this medication if the data cannot be decoded
-//                        }
-//
-//                        // Reset the "isTaken" property for each reminder time
-//                        for reminderTimeIndex in 0..<reminderTimeArray.count {
-//                            reminderTimeArray[reminderTimeIndex]["isTaken"] = false
-//                            
-//                        }
-//
-//                        // Encode the updated data
-//                        reminderTimeData = try NSKeyedArchiver.archivedData(withRootObject: reminderTimeArray, requiringSecureCoding: false)
-//
-//                        // Update the medication with the new reminder time data
-//                        let update = self.medication.filter(Expression<Int>("id") == id)
-//                            .update(Expression<Data?>("reminderTime") <- reminderTimeData)
-//
-//                        try db?.run(update)
-//                    }
-//                }
-//            }
-//        } catch {
-//            print("Unable to reset 'isTaken' property for all medications: \(error)")
-//        }
-//    }
+
 
     
     

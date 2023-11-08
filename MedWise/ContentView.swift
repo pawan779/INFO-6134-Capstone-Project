@@ -34,7 +34,7 @@ struct ContentView: View {
                        } else if tab == .history {
                            SupportView()
                        } else {
-                           SettingsView()
+                           SettingsView(viewModel: ProfileViewModel(user: User(id: 1, name: "String", gender: "String", age: "2", weight: "String")))
                        }
                    }
                
@@ -47,7 +47,6 @@ struct ContentView: View {
              MyTabBar(selectedTab: $selectedTab)
             }
           }
-     
         
     }
 }

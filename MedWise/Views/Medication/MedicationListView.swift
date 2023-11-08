@@ -8,20 +8,20 @@
 import SwiftUI
 
 struct MedicationListView: View {
-    
+
     @ObservedObject var viewModel = MedicationListViewModel()
- 
-    
+
+
     func fetchMedicine(){
         viewModel.fetchMedications()
     }
-    
+
     var body: some View {
         NavigationView{
             ZStack{
                 Color.customBackgroundColor
                     .ignoresSafeArea()
-                
+
                 VStack{
                     HStack {
                         ZStack(alignment: .trailing){
@@ -30,7 +30,7 @@ struct MedicationListView: View {
                                 .padding(.horizontal)
                                 .onChange(of: viewModel.searchTerm) { newValue in viewModel.filterSearchResults()
                                 }
-                            
+
                             if !viewModel.searchTerm.isEmpty {
                                 Button(action: {
                                     viewModel.searchTerm = ""
@@ -41,9 +41,9 @@ struct MedicationListView: View {
                                 }
                             }
                         }
-                        
-                        
-                       
+
+
+
                         Button(action: {
                             if viewModel.selectedFilterData.isEmpty && viewModel.selectedSortedValue.isEmpty {
                                 viewModel.isFilterSheetPresented.toggle()
@@ -65,20 +65,20 @@ struct MedicationListView: View {
                         })
                     }
 
-             
+
                     ScrollView
                     {
                         ForEach(viewModel.listData){medicine in
                             MedicationRow(medicine: medicine,viewModel: viewModel)
                         }
                         .padding(.vertical,20)
-                        
+
                     }
 
                     .sheet(isPresented: $viewModel.isPresented) {
                         AddMedicationView(viewModel:viewModel)
                     }
-                    
+
                     HStack {
                         Spacer()
                         Button(action: {
@@ -97,7 +97,7 @@ struct MedicationListView: View {
                 }
             }
         }
-       
+
     }
 }
 

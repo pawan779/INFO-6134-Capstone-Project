@@ -7,11 +7,24 @@
 
 import Foundation
 
-struct User {
-    var id: Int?
+struct User : Identifiable{
+    var id: Int
     var name: String
-    var sex: String
-    var height: Double
-    var weight: Double
-    var medication: [Medication]
+    var email: String?
+    var phone: String?
+    var gender: String
+    var age: String
+    var weight: String
+//    var medication: [Medication]
+    
+    init(id: Int, name: String, email: String? = nil, phone: String? = nil, gender: String, age: String, weight: String) {
+        self.id = id
+        self.name = name
+        self.email = email
+        self.phone = phone
+        self.gender = gender
+        self.age = age
+        self.weight = weight
+    }
+    
 }

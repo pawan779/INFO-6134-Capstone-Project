@@ -33,15 +33,16 @@ struct ContentView: View {
                            MedicationListView(viewModel: MedicationListViewModel())
                        } else if tab == .history {
                            SupportView()
+                       } else if tab == .appointment {
+                           AppointmentListView(viewModel: AppointmentViewModel())
                        } else {
                            SettingsView(viewModel: ProfileViewModel(user: User(id: 1, name: "String", gender: "String", age: "2", weight: "String")))
                        }
                    }
-               
-                .tag(tab)
-              }
-             }
+                   .tag(tab)
+               }
            }
+       }
            VStack {
              Spacer()
              MyTabBar(selectedTab: $selectedTab)

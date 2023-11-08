@@ -10,22 +10,27 @@ import SwiftUI
 enum Tab: String, CaseIterable {
    case medication
    case history
+   case appointment
    case setting
+
 }
 
 struct MyTabBar: View {
       @Binding var selectedTab: Tab
-      private var fillImage: String {
-          selectedTab.rawValue == "medication" ? "pills.fill" : selectedTab.rawValue == "history" ? "clock.fill" : "gear.circle.fill"
-          
-         
-     }
-    
-    
-    private func unfillImage(tab: Tab)-> String {
-        tab.rawValue == "medication" ? "pills" : tab.rawValue == "history" ? "clock" : "gear.circle"
+    private var fillImage: String {
+        selectedTab.rawValue == "medication" ? "pills.fill" :
+        selectedTab.rawValue == "history" ? "clock.fill" :
+        selectedTab.rawValue == "appointment" ? "calendar.circle.fill" :
+        "gear.circle.fill"
     }
     
+    
+    private func unfillImage(tab: Tab) -> String {
+        tab.rawValue == "medication" ? "pills" :
+        tab.rawValue == "history" ? "clock" :
+        tab.rawValue == "appointment" ? "calendar.circle" :
+        "gear.circle"
+    }
     
      var body: some View {
         VStack {

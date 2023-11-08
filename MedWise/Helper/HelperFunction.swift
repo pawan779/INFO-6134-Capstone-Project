@@ -27,4 +27,9 @@ class HelperFunction{
         formatter.dateFormat = "mm"
         return formatter.string(from: time)
     }
+    func formattedDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        return formatter.string(from: date)
+    }
 }

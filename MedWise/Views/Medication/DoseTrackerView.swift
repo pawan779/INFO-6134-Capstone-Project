@@ -28,9 +28,53 @@ struct DoseTrackerView: View {
                             .padding()
                     }
                     
-                    Stepper("Number of tablets in a dose: \(viewModel.numberOfTablets)", value: $viewModel.numberOfTablets, in: 0...100)
+                    HStack {
+                        Text("Number of tablets in a dose:")
+                              .font(.headline) 
+                              .foregroundColor(.white)
+                              .lineLimit(1)
+                              .minimumScaleFactor(0.5)
+                            
+                              .padding(.trailing, 5)
+
+                       
+                          Text("\(viewModel.numberOfTablets)")
+                              
+                              .font(.title3)
+                              .foregroundColor(.white)
+                              .frame(width: 36, alignment: .leading)
+                              .padding(.leading, 0)
+                   
+                        Button(action: {
+                            if viewModel.numberOfTablets > 0 { viewModel.numberOfTablets -= 1 }
+                        }) {
+                            Image(systemName: "minus")
+                                .padding(5)
+                        }
+                        .buttonStyle(BorderlessButtonStyle())
+                        .frame(width: 34, height: 34)
                         .foregroundColor(.white)
-                        .padding()
+                        .background(Color.customBackgroundColor)
+                        .cornerRadius(8)
+                        Divider()
+                            .frame(height: 34)
+                            .background(Color.white.opacity(0.5))
+
+                        Button(action: {
+                            if viewModel.numberOfTablets < 100 { viewModel.numberOfTablets += 1 }
+                        }) {
+                            Image(systemName: "plus")
+                                .padding(5)
+                        }
+                        .buttonStyle(BorderlessButtonStyle())
+                        .frame(width: 34, height: 34)
+                        .foregroundColor(.white)
+                        .background(Color.customBackgroundColor)
+                        .cornerRadius(8)
+                    }
+                    .padding(.horizontal, 10)
+                    .frame(maxWidth: .infinity)
+
                     
                     VStack(alignment: .leading, spacing: 10) {
                         Text("Select reminder option")

@@ -24,6 +24,7 @@ struct SettingsView: View {
     @State private var isInputValid = false
     @State private var isAgeValid = false
     @State private var isWeightValid = false
+    @State private var showingMap = false
     
     @State var isPresented: Bool = true
     @State var selectedGender: Gender = .male
@@ -44,12 +45,18 @@ struct SettingsView: View {
                             .foregroundColor(.blue)
                         Text("Medicine Log")
                     }
-                    
-                    NavigationLink(destination: ProfileView(viewModel: viewModel)) {
-                        Image(systemName: "location.fill")
-                            .foregroundColor(.blue)
-                        Text("Drugstore near me")
-                    }
+                    Button(action: {
+                          showingMap = true
+                      }) {
+                          HStack {
+                              Image(systemName: "location.fill").foregroundColor(.blue)
+                              Text("Drugstore near me")
+                                  .foregroundColor(.black)
+                          }
+                      }
+                      .sheet(isPresented: $showingMap) {
+                          MapView() // Present MapView
+                      }
                 }
                 
                 Section(header: Text("Preference")) {

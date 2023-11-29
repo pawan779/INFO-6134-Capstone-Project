@@ -32,7 +32,7 @@ struct ContentView: View {
                        if tab == .medication {
                            MedicationListView(viewModel: MedicationListViewModel())
                        } else if tab == .history {
-                           SupportView()
+                           HistoryListView(viewModel: HistoryViewModel())
                        } else if tab == .appointment {
                            AppointmentListView(viewModel: AppointmentViewModel())
                        } else {

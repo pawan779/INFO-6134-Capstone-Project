@@ -47,6 +47,7 @@ class MedicationListViewModel: ObservableObject {
     @Published var maxFilterVal: Int = 0
     @Published var sortedData: [Medication] = []
     @Published var selectedSortedValue: String = ""
+    
 
     var listData: [Medication] {
 //        return selectedFilterData.isEmpty ? (searchTerm.isEmpty ? medications : searchedResult) : filteredData
@@ -76,6 +77,8 @@ class MedicationListViewModel: ObservableObject {
         reminderOption = reminderOptions[0]
         fetchMedications()
         checkAndUpdateMedicationStatus()
+ 
+        
 
     }
     
@@ -103,6 +106,8 @@ class MedicationListViewModel: ObservableObject {
         if(!selectedSortedValue.isEmpty){
             sortMedication(filterMode: selectedSortedValue)
         }
+        
+ print(medications)
     }
 
     func addMedication(medicineName: String, reminderTime: [Date], isDosedTracking: Bool, numberOfTablets: Int?, reminderOption: String? ) {
@@ -136,6 +141,7 @@ class MedicationListViewModel: ObservableObject {
     func updateIsTaken(id: Int, reminderTimeID: Int,newIsTaken: Bool ){
         DatabaseHelper.shared.updateMedicationIsTaken(id: id, reminderTimeID: reminderTimeID, newIsTaken: newIsTaken)
         fetchMedications()
+        HistoryViewModel().fetchHistoryGroupedByDate()
     }
 
     func deleteMedication(mainId: Int, reminderTimeId: Int, notificationID: String){
@@ -155,6 +161,7 @@ class MedicationListViewModel: ObservableObject {
         if !Calendar.current.isDate(firstMedication.medicationDate, inSameDayAs: currentDate) {
             print("Reset medication")
             DatabaseHelper.shared.resetAllMedicationIsTaken()
+            DatabaseHelper.shared.replaceHistoryForYesterday(medications: medications)
             fetchMedications()
         }
     }
@@ -230,5 +237,8 @@ class MedicationListViewModel: ObservableObject {
             return nil
         }.compactMap { $0 }
     }
+    
+    
+    
 
 }

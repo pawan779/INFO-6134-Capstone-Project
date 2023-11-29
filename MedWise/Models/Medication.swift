@@ -37,5 +37,15 @@ struct ReminderTime: Identifiable {
     var time: Date
     var isTaken: Bool
     var notificationID: String
+    var takenDate: Date?
+    var isSkipped: Bool?
 
+    init(id: Int, time: Date, isTaken: Bool, notificationID: String, takenDate: Date? = nil, isSkipped: Bool? = false ) {
+        self.id = id
+        self.time = time
+        self.isTaken = isTaken
+        self.notificationID = notificationID
+        self.takenDate = takenDate
+        self.isSkipped = isSkipped
+    }
 }

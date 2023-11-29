@@ -24,7 +24,21 @@ struct HistoryListView: View {
                     VStack(alignment: .leading){
                         
                         HStack{
-                            
+                            Spacer()
+                           
+                                Button(action: {
+                                    viewModel.toggleShowSkippedMedicines()
+                                }) {
+                                    Text(!viewModel.showSkippedMedicines ? "Show Skipped Medicines" : "Show All History")
+                                        .font(.caption)
+                                        .foregroundColor(.blue)
+                                        .padding()
+                                        .background(Color.clear)
+                                        .cornerRadius(8)
+                                        .padding(.horizontal)
+                                    
+                                
+                            }
                         }
                         
                         ScrollView

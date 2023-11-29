@@ -172,7 +172,8 @@ class DatabaseHelper {
                         "isTaken": false,
                         "id": index + 1,
                         "notificationID": notificationID + "\(index+1)",
-                        "takenDate": Date()
+                        "takenDate": Date(),
+                        "isSkipped": false
                     ]
                     reminderTimeData.append(dateData)
                 }
@@ -233,8 +234,9 @@ class DatabaseHelper {
                                let id = reminderTimeInfo["id"] as? Int,
                                let notificationID = reminderTimeInfo["notificationID"] as? String,
                                let takenDate = reminderTimeInfo["takenDate"] as? Date,
+                               let isSkipped = reminderTimeInfo["isSkipped"] as? Bool,
                                let isTaken = reminderTimeInfo["isTaken"] as? Bool {
-                                let reminderTime = ReminderTime(id: id, time: time, isTaken: isTaken, notificationID: notificationID, takenDate: takenDate)
+                                let reminderTime = ReminderTime(id: id, time: time, isTaken: isTaken, notificationID: notificationID, takenDate: takenDate, isSkipped: isSkipped)
                                 reminderTimes.append(reminderTime)
                             }
                         }
@@ -357,13 +359,15 @@ class DatabaseHelper {
                     // Update the 'isTaken' property for the specific reminder time
                     if let index = reminderTimeArray.firstIndex(where: { $0["id"] as? Int == reminderTimeID }) {
                         reminderTimeArray[index]["isTaken"] = newIsTaken
+                        reminderTimeArray[index]["isSkipped"] = !newIsTaken
                         reminderTimeArray[index]["takenDate"] = Date()
                     }
 
                     // Decrement 'numberOfTablets' if 'isDosedTracking' is true
-                    if isDosedTracking && numberOfTablets != nil {
-                        numberOfTablets -= 1
-                    }
+                    if(newIsTaken == true){
+                        if isDosedTracking && numberOfTablets != nil {
+                            numberOfTablets -= 1
+                        }}
 
                     // Encode the updated data
                     existingReminderTimeData = try NSKeyedArchiver.archivedData(withRootObject: reminderTimeArray, requiringSecureCoding: false)

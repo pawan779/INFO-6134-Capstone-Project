@@ -47,6 +47,7 @@ class MedicationListViewModel: ObservableObject {
     @Published var maxFilterVal: Int = 0
     @Published var sortedData: [Medication] = []
     @Published var selectedSortedValue: String = ""
+    
 
     var listData: [Medication] {
 //        return selectedFilterData.isEmpty ? (searchTerm.isEmpty ? medications : searchedResult) : filteredData
@@ -106,7 +107,7 @@ class MedicationListViewModel: ObservableObject {
             sortMedication(filterMode: selectedSortedValue)
         }
         
- 
+ print(medications)
     }
 
     func addMedication(medicineName: String, reminderTime: [Date], isDosedTracking: Bool, numberOfTablets: Int?, reminderOption: String? ) {

@@ -16,7 +16,6 @@ class HistoryViewModel: ObservableObject {
     
     init(){
         fetchHistoryGroupedByDate()
-
     }
     
     func fetchHistoryGroupedByDate() {
@@ -26,18 +25,7 @@ class HistoryViewModel: ObservableObject {
     
     }
     
-    func showData(){
-        filterSkippedData()
-        history = showSkippedMedicines ? skippedData : groupedHistory
-
-    }
-
-    
-    func toggleShowSkippedMedicines() {
-          showSkippedMedicines.toggle()
-        showData()
-        
-      }
+   
     
     func filterSkippedData(){
         let filteredData = groupedHistory.map { (entry: [String: Any]) -> [String: Any] in
@@ -51,6 +39,20 @@ class HistoryViewModel: ObservableObject {
         }
         self.skippedData = filteredData
     }
+
+    func showData(){
+        filterSkippedData()
+        history = showSkippedMedicines ? skippedData : groupedHistory
+
+    }
+    
+    func toggleShowSkippedMedicines() {
+          showSkippedMedicines.toggle()
+        showData()
+        
+      }
+    
+  
 }
 
 

@@ -10,6 +10,7 @@ import SwiftUI
 struct AppointmentRow: View {
     var appointment: Appointment
     @ObservedObject var viewModel: AppointmentViewModel
+    @ObservedObject var viewNotification: NotificationViewModel
     @State private var isShowingOptionsAlert = false
     
     let helper = HelperFunction()
@@ -51,6 +52,7 @@ struct AppointmentRow: View {
                 title: Text("Are you sure you want to delete this appointment?"),
                 message: Text("This action cannot be undone."),
                 primaryButton: .destructive(Text("Delete")) {
+                    viewNotification.stopNotification(for: appointment)
                     viewModel.deleteAppointment(appointmentID: appointment.id)
                 },
                 secondaryButton: .cancel()

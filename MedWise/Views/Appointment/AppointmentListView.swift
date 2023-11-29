@@ -21,12 +21,9 @@ struct AppointmentListView: View {
 
             List {
                 ForEach(viewModel.appointments) { appointment in
-                    AppointmentRow(appointment: appointment, viewModel: viewModel)
+                    AppointmentRow(appointment: appointment, viewModel: viewModel, viewNotification: NotificationViewModel())
                         .padding(.vertical, 5)
                         .listRowBackground(Color.customBackgroundColor) // Set each list row's background color
-                    
-                    
-
                 }
                 
                 .onDelete(perform: deleteAppointments)
@@ -53,7 +50,7 @@ struct AppointmentListView: View {
         }
         .background(Color.customBackgroundColor)
         .sheet(isPresented: $showAddAppointmentForm) {
-            AddAppointmentView(viewModel: viewModel)
+            AddAppointmentView(viewModel: viewModel, viewNotification: NotificationViewModel())
         }
     }
 

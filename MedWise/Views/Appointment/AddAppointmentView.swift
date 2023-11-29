@@ -10,6 +10,7 @@ import SwiftUI
 struct AddAppointmentView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var viewModel: AppointmentViewModel // Assume this is defined somewhere
+    @ObservedObject var viewNotification: NotificationViewModel
     
     @State private var doctorName: String = ""
     @State private var reason: String = ""
@@ -155,9 +156,6 @@ struct AddAppointmentView: View {
         let phonePredicate = NSPredicate(format: "SELF MATCHES %@", phoneRegex)
         isContactNumberValid = phonePredicate.evaluate(with: contactNumber)
     }
-
-
-
     
     private func isAllInputValid() -> Bool {
         return isDoctorNameValid && isReasonValid && isContactNumberValid
@@ -198,6 +196,10 @@ struct AddAppointmentView: View {
         let newAppointment = Appointment(id: UUID(), doctorName: trimmedDoctorName, reason: trimmedReason, contactNumber: trimmedContactNumber, date: date, time: date)
         viewModel.addAppointment(newAppointment)
         
+        // Schedule a local notification
+        viewNotification.notificationScheduler(for: newAppointment)
+        
+        
         // Dismiss the current view
         presentationMode.wrappedValue.dismiss()
     }
@@ -205,7 +207,7 @@ struct AddAppointmentView: View {
     
     struct AddAppointmentView_Previews: PreviewProvider {
         static var previews: some View {
-            AddAppointmentView(viewModel: AppointmentViewModel())
+            AddAppointmentView(viewModel: AppointmentViewModel(), viewNotification: NotificationViewModel())
         }
     }
 }

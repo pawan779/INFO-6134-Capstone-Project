@@ -21,6 +21,7 @@ class AppointmentViewModel: ObservableObject {
         appointments = databaseHelper.fetchAppointments()
     }
     
+    
     func addAppointment(_ appointment: Appointment) {
         databaseHelper.addAppointment(appointment: appointment)
         fetchAppointments()

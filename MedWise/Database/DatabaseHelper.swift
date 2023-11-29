@@ -16,7 +16,7 @@ class DatabaseHelper {
     private let users = Table("users")
     private let medication = Table("medication")
     private let appointments = Table("appointments")
-
+    private let history = Table("history")
     private init() {
         let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
         do {
@@ -59,6 +59,15 @@ class DatabaseHelper {
                        table.column(Expression<Date>("date"))
                        table.column(Expression<Date>("time"))
                    })
+            
+            try db!.run(history.create(ifNotExists: true) { table in
+                table.column(Expression<UUID>("id"), primaryKey: true)
+                table.column(Expression<Int>("medicineId"))
+                table.column(Expression<Int>("reminderTimeId"))
+                table.column(Expression<String>("medicineName"))
+                table.column(Expression<Date>("takenDate"))
+                table.column(Expression<Bool>("isTaken"))
+            })
         } catch {
             print("Unable to create table: \(error)")
         }
@@ -133,6 +142,7 @@ class DatabaseHelper {
                 let gender = row[Expression<String>("gender")]
                 let age = row[Expression<String>("age")]
                 let weight = row[Expression<String>("weight")]
+                
 
                 return User(id: id, name: name, email: email, phone: phone, gender: gender, age: age, weight: weight)
             }
@@ -161,7 +171,8 @@ class DatabaseHelper {
                         "time": date,
                         "isTaken": false,
                         "id": index + 1,
-                        "notificationID": notificationID + "\(index+1)"
+                        "notificationID": notificationID + "\(index+1)",
+                        "takenDate": Date()
                     ]
                     reminderTimeData.append(dateData)
                 }
@@ -217,11 +228,13 @@ class DatabaseHelper {
                         var reminderTimes: [ReminderTime] = []
 
                         for reminderTimeInfo in reminderTimeArray {
+
                             if let time = reminderTimeInfo["time"] as? Date,
                                let id = reminderTimeInfo["id"] as? Int,
                                let notificationID = reminderTimeInfo["notificationID"] as? String,
+                               let takenDate = reminderTimeInfo["takenDate"] as? Date,
                                let isTaken = reminderTimeInfo["isTaken"] as? Bool {
-                                let reminderTime = ReminderTime(id: id, time: time, isTaken: isTaken, notificationID: notificationID)
+                                let reminderTime = ReminderTime(id: id, time: time, isTaken: isTaken, notificationID: notificationID, takenDate: takenDate)
                                 reminderTimes.append(reminderTime)
                             }
                         }
@@ -287,24 +300,68 @@ class DatabaseHelper {
 
 
 
+//    func updateMedicationIsTaken(id: Int, reminderTimeID: Int, newIsTaken: Bool) {
+//        do {
+//            try db?.transaction {
+//                // Retrieve the existing medication
+//                if let existingMedication = try db?.pluck(medication.filter(Expression<Int>("id") == id)),
+//                   var existingReminderTimeData = existingMedication[Expression<Data?>("reminderTime")],
+//                   let isDosedTracking = existingMedication[Expression<Bool?>("isDosedTracking")],
+//                   var numberOfTablets = existingMedication[Expression<Int?>("numberOfTablets")],
+//                   var reminderTimeArray = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(existingReminderTimeData) as? [[String: Any]] {
+//                    
+//                    // Update the 'isTaken' property for the specific reminder time
+//                    if let index = reminderTimeArray.firstIndex(where: { $0["id"] as? Int == reminderTimeID }) {
+//                        reminderTimeArray[index]["isTaken"] = newIsTaken
+//                        reminderTimeArray[index]["takenDate"] = Date()
+//                    }
+//
+//                    // Decrement 'numberOfTablets' if 'isDosedTracking' is true
+//                    if isDosedTracking && numberOfTablets != nil {
+//                        numberOfTablets -= 1
+//                    }
+//
+//                    // Encode the updated data
+//                    existingReminderTimeData = try NSKeyedArchiver.archivedData(withRootObject: reminderTimeArray, requiringSecureCoding: false)
+//
+//                    // Update the medication with the new data
+//                    let update = self.medication.filter(Expression<Int>("id") == id)
+//                        .update(
+//                            Expression<Data?>("reminderTime") <- existingReminderTimeData,
+//                            Expression<Int?>("numberOfTablets") <- numberOfTablets
+//                        )
+//
+//                    try db?.run(update)
+//                } else {
+//                     print("Error while updating medication's isTaken property")
+//                }
+//            }
+//        } catch {
+//            print("Error while updating medication's isTaken property: \(error)")
+//        }
+//    }
+    
+    
+
+
     func updateMedicationIsTaken(id: Int, reminderTimeID: Int, newIsTaken: Bool) {
         do {
             try db?.transaction {
                 // Retrieve the existing medication
                 if let existingMedication = try db?.pluck(medication.filter(Expression<Int>("id") == id)),
-                   var existingReminderTimeData = existingMedication[Expression<Data?>("reminderTime")],
-                   let isDosedTracking = existingMedication[Expression<Bool?>("isDosedTracking")],
-                   var numberOfTablets = existingMedication[Expression<Int?>("numberOfTablets")],
-                   var reminderTimeArray = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(existingReminderTimeData) as? [[String: Any]] {
-                    
+                    var existingReminderTimeData = existingMedication[Expression<Data?>("reminderTime")],
+                    let isDosedTracking = existingMedication[Expression<Bool?>("isDosedTracking")],
+                    var numberOfTablets = existingMedication[Expression<Int?>("numberOfTablets")],
+                    var reminderTimeArray = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(existingReminderTimeData) as? [[String: Any]] {
+
                     // Update the 'isTaken' property for the specific reminder time
                     if let index = reminderTimeArray.firstIndex(where: { $0["id"] as? Int == reminderTimeID }) {
                         reminderTimeArray[index]["isTaken"] = newIsTaken
+                        reminderTimeArray[index]["takenDate"] = Date()
                     }
 
                     // Decrement 'numberOfTablets' if 'isDosedTracking' is true
                     if isDosedTracking && numberOfTablets != nil {
-                        
                         numberOfTablets -= 1
                     }
 
@@ -312,61 +369,153 @@ class DatabaseHelper {
                     existingReminderTimeData = try NSKeyedArchiver.archivedData(withRootObject: reminderTimeArray, requiringSecureCoding: false)
 
                     // Update the medication with the new data
-                    let update = self.medication.filter(Expression<Int>("id") == id)
+                    let medicationUpdate = self.medication.filter(Expression<Int>("id") == id)
                         .update(
                             Expression<Data?>("reminderTime") <- existingReminderTimeData,
                             Expression<Int?>("numberOfTablets") <- numberOfTablets
                         )
 
-                    try db?.run(update)
+                    try db?.run(medicationUpdate)
+                    
+                    
+                    
+                    let idColumn = Expression<UUID>("id")
+                    let medicineIdColumn = Expression<Int>("medicineId")
+                    let medicineNameColumn = Expression<String>("medicineName")
+                    let reminderTimeIdColumn = Expression<Int>("reminderTimeId")
+                    let takenDateColumn = Expression<Date>("takenDate")
+                    let isTakenColumn = Expression<Bool>("isTaken")
+
+
+                    // Add entry to the History table
+                    let historyEntry = History(
+                        id: UUID(),
+                        medicineId: existingMedication[Expression<Int>("id")],
+                        reminderTimeId: reminderTimeID,
+                        medicineName: existingMedication[Expression<String>("medicineName")],
+                        takenDate: Date(),
+                        isTaken: newIsTaken
+                    )
+                    do {
+                        let insert = try self.db?.run(history.insert(
+                            idColumn <- historyEntry.id,
+                            medicineIdColumn <- historyEntry.medicineId,
+                            medicineNameColumn <- historyEntry.medicineName,
+                            reminderTimeIdColumn <- historyEntry.reminderTimeId,
+                            takenDateColumn <- historyEntry.takenDate,
+                            isTakenColumn <- historyEntry.isTaken
+                        ))
+                        if insert == nil {
+                            print("Error while inserting into History table")
+                        }
+                    } catch {
+                        print("Error while inserting into History table: \(error)")
+                    }
                 } else {
-                     print("Error while updating medication's isTaken property")
+                    print("Error while updating medication's isTaken property: Medication not found")
                 }
             }
         } catch {
             print("Error while updating medication's isTaken property: \(error)")
         }
     }
-    
-    
 
-
-
-    
-    func deleteReminderTime( medicationId: Int, reminderTimeId: Int) {
+        
+    func fetchHistoryGroupedByDate() -> [[String: Any]] {
+        let idColumn = Expression<UUID>("id")
+        let medicineIdColumn = Expression<Int>("medicineId")
+        let medicineNameColumn = Expression<String>("medicineName")
+        let reminderTimeIdColumn = Expression<Int>("reminderTimeId")
+        let takenDateColumn = Expression<Date>("takenDate")
+        let isTakenColumn = Expression<Bool>("isTaken")
+        
         do {
-            try db?.transaction {
-                // Find the medication by its ID
-                let medicationFilter = self.medication.filter(Expression<Int>("id") == medicationId)
+            // Fetch all entries from the History table ordered by takenDate (latest first)
+            let historyEntries = try db?.prepare(history.order(takenDateColumn.desc))
 
-                // Fetch the existing reminder times for the medication
-                let medicationWithReminderTime = try db?.pluck(medicationFilter)
-                var reminderTimes = medicationWithReminderTime?[Expression<Data?>("reminderTime")]
+            // Initialize a dictionary to group history entries by date
+            var historyGroupedByDate: [String: [[String: Any]]] = [:]
 
-                if var reminderTimeData = reminderTimes as? Data {
-                    var reminderTimeArray = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(reminderTimeData) as? [[String: Any]]
-                    
-                    // Filter the reminder times to exclude the one with the specified reminderTimeId
-                    reminderTimeArray = reminderTimeArray?.filter { reminderTime in
-                        guard let id = reminderTime["id"] as? Int else { return true }
-                        return id != reminderTimeId
+            // Convert SQLite rows to dictionaries
+            historyEntries?.forEach { row in
+                let historyEntry: [String: Any] = [
+                    "id": try? row.get(idColumn),
+                    "medicineId": try? row.get(medicineIdColumn),
+                    "medicineName": try? row.get(medicineNameColumn),
+                    "reminderTimeId": try? row.get(reminderTimeIdColumn),
+                    "takenDate": try? row.get(takenDateColumn),
+                    "isTaken": try? row.get(isTakenColumn)
+                ]
+
+                // Extract the date string from the takenDate
+                if let date = try? row.get(takenDateColumn) {
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "yyyy-MM-dd"  // Adjust the date format as needed
+                    let dateString = dateFormatter.string(from: date)
+
+                    // Append the history entry to the corresponding date in the dictionary
+                    if var historyArray = historyGroupedByDate[dateString] {
+                        historyArray.append(historyEntry)
+                        historyGroupedByDate[dateString] = historyArray
+                    } else {
+                        historyGroupedByDate[dateString] = [historyEntry]
                     }
-
-                    // Encode the updated reminderTime array
-                    let encodedData = try NSKeyedArchiver.archivedData(withRootObject: reminderTimeArray, requiringSecureCoding: false)
-
-                    // Update the medication with the modified reminder times
-                    let update = medicationFilter.update(
-                        Expression<Data?>("reminderTime") <- encodedData
-                    )
-
-                    try db?.run(update)
                 }
             }
+
+            // Convert the dictionary to the final array format
+            let resultArray = historyGroupedByDate.map { (date, historyArray) in
+                return ["date": date, "history": historyArray]
+            }
+
+            return resultArray
+
         } catch {
-            print("Unable to delete reminder time: \(error)")
+            print("Error while fetching history: \(error)")
+            return []
         }
     }
+
+
+        
+        
+        
+        
+        func deleteReminderTime( medicationId: Int, reminderTimeId: Int) {
+            do {
+                try db?.transaction {
+                    // Find the medication by its ID
+                    let medicationFilter = self.medication.filter(Expression<Int>("id") == medicationId)
+                    
+                    // Fetch the existing reminder times for the medication
+                    let medicationWithReminderTime = try db?.pluck(medicationFilter)
+                    var reminderTimes = medicationWithReminderTime?[Expression<Data?>("reminderTime")]
+                    
+                    if var reminderTimeData = reminderTimes as? Data {
+                        var reminderTimeArray = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(reminderTimeData) as? [[String: Any]]
+                        
+                        // Filter the reminder times to exclude the one with the specified reminderTimeId
+                        reminderTimeArray = reminderTimeArray?.filter { reminderTime in
+                            guard let id = reminderTime["id"] as? Int else { return true }
+                            return id != reminderTimeId
+                        }
+                        
+                        // Encode the updated reminderTime array
+                        let encodedData = try NSKeyedArchiver.archivedData(withRootObject: reminderTimeArray, requiringSecureCoding: false)
+                        
+                        // Update the medication with the modified reminder times
+                        let update = medicationFilter.update(
+                            Expression<Data?>("reminderTime") <- encodedData
+                        )
+                        
+                        try db?.run(update)
+                    }
+                }
+            } catch {
+                print("Unable to delete reminder time: \(error)")
+            }
+        }
+    
 
 
     
@@ -406,6 +555,64 @@ class DatabaseHelper {
             print("Unable to reset 'isTaken' property for all medications: \(error)")
         }
     }
+    
+    
+    func replaceHistoryForYesterday(medications: [MedWise.Medication]) {
+        let idColumn = Expression<UUID>("id")
+        let medicineIdColumn = Expression<Int>("medicineId")
+        let medicineNameColumn = Expression<String>("medicineName")
+        let reminderTimeIdColumn = Expression<Int>("reminderTimeId")
+        let takenDateColumn = Expression<Date>("takenDate")
+        let isTakenColumn = Expression<Bool>("isTaken")
+        do {
+            try db?.transaction {
+                let calendar = Calendar.current
+                // Calculate yesterday's date
+                let yesterday = calendar.date(byAdding: .day, value: -1, to: Date()) ?? Date()
+
+                // Delete existing records for yesterday's date
+                let delete = history.filter(Expression<Date>("takenDate") == yesterday)
+                    .delete()
+
+                try db?.run(delete)
+
+                // Insert new records from the Medication table
+                for medication in medications {
+                    for reminderTime in medication.reminderTime {
+                        let historyEntry = History(
+                            id: UUID(),
+                            medicineId: medication.id,
+                            reminderTimeId: reminderTime.id,
+                            medicineName: medication.medicineName,
+                            takenDate: reminderTime.takenDate ?? Date(),
+                            isTaken: reminderTime.isTaken
+                        )
+
+                        do {
+                            let insert = try self.db?.run(history.insert(
+                                idColumn <- historyEntry.id,
+                                medicineIdColumn <- historyEntry.medicineId,
+                                medicineNameColumn <- historyEntry.medicineName,
+                                reminderTimeIdColumn <- historyEntry.reminderTimeId,
+                                takenDateColumn <- historyEntry.takenDate,
+                                isTakenColumn <- historyEntry.isTaken
+                            ))
+                            if insert == nil {
+                                print("Error while inserting into History table")
+                            }
+                        } catch {
+                            print("Error while inserting into History table: \(error)")
+                        }
+                    }
+                }
+            }
+        } catch {
+            print("Error while replacing history: \(error)")
+        }
+    }
+
+
+    
     
     // Fetch all appointments from the database
     func fetchAppointments() -> [Appointment] {

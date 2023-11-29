@@ -59,7 +59,7 @@ struct SettingsView: View {
                         Text("App Preference")
                     }
                     
-                    NavigationLink(destination: ProfileView(viewModel: viewModel)) {
+                    NavigationLink(destination: SupportView()) {
                         Image(systemName: "questionmark.circle")
                             .foregroundColor(.blue)
                         Text("Support")

@@ -37,7 +37,7 @@ struct HistoryListView: View {
                                         .background(Color.clear)
                                         .cornerRadius(8)
                                         .padding(.horizontal)
-                                    
+
                             }
                         }
                         

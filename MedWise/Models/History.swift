@@ -24,5 +24,3 @@ struct History: Identifiable {
         self.isTaken = isTaken
     }
 }
-
-

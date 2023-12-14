@@ -15,6 +15,7 @@ enum Gender: String, CaseIterable, Identifiable {
 struct SettingsView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var viewModel: ProfileViewModel
+    @ObservedObject var appointmentViewModel: AppointmentViewModel
     
     @State var name: String = ""
     @State var age = ""
@@ -29,9 +30,31 @@ struct SettingsView: View {
     @State var isPresented: Bool = true
     @State var selectedGender: Gender = .male
     
+    @State private var showAlert = false
+    
+    @State private var isNotificationEnabled = false
+    
+    @State var id: Int
+    
+    func showDeleteAppDataAlert() {
+        showAlert = true
+    }
+    
+//    func deleteAppData() -> Alert {
+//        return Alert(
+//            title: Text("Delete App Data"),
+//            message: Text("Are you sure you want to delete all app data? This action cannot be undone."),
+//            primaryButton: .destructive(Text("Delete")) {
+//                print("Delete data")
+//            },
+//            secondaryButton: .cancel()
+//        )
+//    }
+    
     var body: some View {
         
         NavigationView {
+            
             List {
                 Section(header: Text("Settings")) {
                     NavigationLink(destination: ProfileView(viewModel: viewModel)) {
@@ -40,42 +63,69 @@ struct SettingsView: View {
                         Text("Profile")
                     }
                     
-                    NavigationLink(destination: ProfileView(viewModel: viewModel) ) {
-                        Image(systemName: "heart.text.square.fill")
-                            .foregroundColor(.blue)
-                        Text("Medicine Log")
-                    }
+                    //Map
                     Button(action: {
-                          showingMap = true
-                      }) {
-                          HStack {
-                              Image(systemName: "location.fill").foregroundColor(.blue)
-                              Text("Drugstore near me")
-                                  .foregroundColor(.black)
-                          }
-                      }
-                      .sheet(isPresented: $showingMap) {
-                          MapView() // Present MapView
-                      }
-                }
-                
-                Section(header: Text("Preference")) {
-                    NavigationLink(destination: ProfileView(viewModel: viewModel)) {
-                        Image(systemName: "slider.horizontal.3")
-                            .foregroundColor(.blue)
-                        Text("App Preference")
+                        showingMap = true
+                    }) {
+                        HStack {
+                            Image(systemName: "location.fill").foregroundColor(.blue)
+                            Text("Drugstore near me")
+                                .foregroundColor(.black)
+                        }
+                    }
+                    .sheet(isPresented: $showingMap) {
+                        MapView()
                     }
                     
-                    NavigationLink(destination: ProfileView(viewModel: viewModel)) {
-                        Image(systemName: "questionmark.circle")
-                            .foregroundColor(.blue)
-                        Text("Support")
+                    //Notification
+                    Button(action: {
+                        isNotificationEnabled.toggle()
+                    }) {
+                        HStack {
+                            Image(systemName: "bell.fill").foregroundColor(.blue)
+                            Text("Notification")
+                                .foregroundColor(.black)
+                        }
+                    }
+                    .sheet(isPresented: $isNotificationEnabled) {
+                        NotificationListView()
                     }
                 }
+                
+                Section(header: Text("Delete")) {
+                    
+                    //Delete Data
+                    Button(action: {
+                        showDeleteAppDataAlert()
+                    }) {
+                        HStack {
+                            Image(systemName: "trash").foregroundColor(.blue)
+                            Text("Delete App Data")
+                                .foregroundColor(.black)
+                        }
+                    }
+                }
+                .alert(isPresented: $showAlert){
+                    Alert(
+                        title: Text("Delete App Data"),
+                        message: Text("Are you sure you want to delete all app data? This action cannot be undone."),
+                        primaryButton: .destructive(Text("Delete")){
+                            appointmentViewModel.deleteAllAppointments()
+                            appointmentViewModel.fetchAppointments()
+                            DatabaseHelper.shared.deleteAllMedications()
+                            MedicationListViewModel().fetchMedications()
+                            viewModel.deleteUserProfile()
+                            print("Deleting App Data")
+                        },
+                        secondaryButton: .cancel()
+                    )
+                }
             }
+            
+            
         }
         .onAppear {
-            if (viewModel.loadUserFromDatabase().name == "String" )  {
+            if (viewModel.user.name == "String" )  {
                 isPresented = true
             }
             else{
@@ -103,7 +153,6 @@ struct SettingsView: View {
                     .padding()
                     
                 }
-                
                 
                 // Age TextField
                 TextField("Enter Age", text: $age)
@@ -185,10 +234,9 @@ struct SettingsView: View {
             .presentationDetents([.medium, .large, .fraction(0.25), .height(600)], selection: .constant(.large))
             
         })
-        
     }
 }
 
 #Preview {
-    SettingsView(viewModel: ProfileViewModel(user: User(id: 1, name: "John Doe", gender: "female", age: "22", weight: "56")))
+    SettingsView(viewModel: ProfileViewModel(user: User(id: 1, name: "John Doe", gender: "female", age: "22", weight: "56")), appointmentViewModel: AppointmentViewModel(), id: 1)
 }

@@ -16,6 +16,10 @@ struct MedicationListView: View {
         viewModel.fetchMedications()
     }
 
+
+    @State private var isRecording = false
+    @State private var showModal = false
+
     var body: some View {
         NavigationView{
             ZStack{
@@ -57,7 +61,15 @@ struct MedicationListView: View {
                             }
                         }
 
-
+                        Button(action: {
+                            self.showModal.toggle()
+                            self.isRecording = false
+                        }) {
+                            Image(systemName: "speaker.wave.2.bubble.fill")
+                                .font(.system(size: 25))
+                                .foregroundColor(.white)
+                        }
+                        .padding(.trailing,5)
 
                         Button(action: {
                             if viewModel.selectedFilterData.isEmpty && viewModel.selectedSortedValue.isEmpty {
@@ -78,8 +90,12 @@ struct MedicationListView: View {
                                 .presentationDetents([.height(250)])
 
                         })
+                        
+                     
                     }
 
+                    
+                    
 
                     ScrollView
                     {
@@ -89,6 +105,9 @@ struct MedicationListView: View {
                         .padding(.vertical,20)
 
                     }
+                    .onAppear(perform: {
+                        viewModel.fetchMedications()
+                    })
 
                     .sheet(isPresented: $viewModel.isPresented) {
                         AddMedicationView(viewModel:viewModel)
@@ -111,8 +130,50 @@ struct MedicationListView: View {
                         }
                     }
                 }
+                
+                
             }
+            .sheet(isPresented: $showModal, content: {
+                GeometryReader { geometry in
+                    VStack {
+                        
+                        
+                        Text("Text to Speech")
+                            .font(.title)
+                            .foregroundStyle(.white)
+                            .padding()
+                        
+                        Button(action: {
+                            isRecording.toggle()
+                            if( isRecording){
+                                viewModel.readDescription()
+                               
+                            }
+                            else {
+                                viewModel.stopRecording()
+                            }
+                            
+                            
+                        }) {
+                            
+                            Image(systemName: !isRecording ? "circle.fill" : "stop.circle")
+                                .font(.system(size: 50))
+                                .foregroundColor(isRecording ? .red : .green)
+                            
+                            Text(isRecording ? "Stop" : "Start")
+                                .font(.headline)
+                                .padding()
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
+                        .padding()
+                    }
+                    .padding()
+                    .frame(width: geometry.size.width, height: geometry.size.height)
+                    .background(Color.customBackgroundColor)
+                }})
         }
+                   
 
     }
 }
@@ -151,6 +212,7 @@ extension View {
         self.modifier(DeviceShakeViewModifier(action: action))
     }
 }
+
 
 
 

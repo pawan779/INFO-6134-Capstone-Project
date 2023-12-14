@@ -15,15 +15,19 @@
 		4A8A4B992AE9F5FF002C7239 /* TrackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8A4B982AE9F5FF002C7239 /* TrackView.swift */; };
 		4A8A4B9B2AE9F61A002C7239 /* DoseTrackerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8A4B9A2AE9F61A002C7239 /* DoseTrackerView.swift */; };
 		4A9E7BA92B0CFC58008A817D /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9E7BA82B0CFC58008A817D /* LocationManager.swift */; };
+		4AFA90E92B27453200138B14 /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFA90E82B27453200138B14 /* ShareSheet.swift */; };
+		4AFA90EB2B2746DC00138B14 /* HistoryDataPreparer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFA90EA2B2746DC00138B14 /* HistoryDataPreparer.swift */; };
 		6E777A0C2AF6B00100FE9CE6 /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E777A0B2AF6B00100FE9CE6 /* EditProfileView.swift */; };
 		6E7DA4712AE9FE7D000696B9 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7DA4702AE9FE7D000696B9 /* SettingsView.swift */; };
 		6E7DA4732AE9FE94000696B9 /* ProfileRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7DA4722AE9FE94000696B9 /* ProfileRow.swift */; };
 		AE3C3C482AE9FAE200FCBF37 /* MedicationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3C3C472AE9FAE200FCBF37 /* MedicationRow.swift */; };
+		DD81F9E32B2A8E9F00214790 /* NotificationListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD81F9E22B2A8E9F00214790 /* NotificationListView.swift */; };
 		DDF5F02C2AF9C85A000D8F76 /* MedicationFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF5F02B2AF9C85A000D8F76 /* MedicationFilterView.swift */; };
 		FD1B61082B267879004F1302 /* HistoryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1B61072B267879004F1302 /* HistoryListView.swift */; };
 		FD1B610A2B2678C5004F1302 /* HistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1B61092B2678C5004F1302 /* HistoryViewModel.swift */; };
 		FD1B610C2B2678EB004F1302 /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1B610B2B2678EB004F1302 /* History.swift */; };
 		FD1B61102B2679A8004F1302 /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = FD1B610F2B2679A8004F1302 /* SQLite */; };
+		FD1B61122B267B76004F1302 /* TextToSpeech.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1B61112B267B76004F1302 /* TextToSpeech.swift */; };
 		FD2CF9BE2AED872C00CF6FBC /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2CF9BD2AED872C00CF6FBC /* NotificationViewModel.swift */; };
 		FDB87D2C2AE4200500B9B6A5 /* DatabaseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB87D2B2AE4200500B9B6A5 /* DatabaseHelper.swift */; };
 		FDB87D2E2AE4201D00B9B6A5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB87D2D2AE4201D00B9B6A5 /* User.swift */; };
@@ -57,14 +61,19 @@
 		4A8A4B982AE9F5FF002C7239 /* TrackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackView.swift; sourceTree = "<group>"; };
 		4A8A4B9A2AE9F61A002C7239 /* DoseTrackerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoseTrackerView.swift; sourceTree = "<group>"; };
 		4A9E7BA82B0CFC58008A817D /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		4AFA90E82B27453200138B14 /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
+		4AFA90EA2B2746DC00138B14 /* HistoryDataPreparer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDataPreparer.swift; sourceTree = "<group>"; };
 		6E777A0B2AF6B00100FE9CE6 /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
 		6E7DA4702AE9FE7D000696B9 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		6E7DA4722AE9FE94000696B9 /* ProfileRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRow.swift; sourceTree = "<group>"; };
 		AE3C3C472AE9FAE200FCBF37 /* MedicationRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicationRow.swift; sourceTree = "<group>"; };
+		DD81F9E22B2A8E9F00214790 /* NotificationListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationListView.swift; sourceTree = "<group>"; };
 		DDF5F02B2AF9C85A000D8F76 /* MedicationFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicationFilterView.swift; sourceTree = "<group>"; };
 		FD1B61072B267879004F1302 /* HistoryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryListView.swift; sourceTree = "<group>"; };
 		FD1B61092B2678C5004F1302 /* HistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewModel.swift; sourceTree = "<group>"; };
 		FD1B610B2B2678EB004F1302 /* History.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = History.swift; sourceTree = "<group>"; };
+		FD1B61112B267B76004F1302 /* TextToSpeech.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextToSpeech.swift; sourceTree = "<group>"; };
+		FD1B61132B267D5A004F1302 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		FD2CF9BD2AED872C00CF6FBC /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
 		FDB87D2B2AE4200500B9B6A5 /* DatabaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseHelper.swift; sourceTree = "<group>"; };
 		FDB87D2D2AE4201D00B9B6A5 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -111,10 +120,19 @@
 			path = Map;
 			sourceTree = "<group>";
 		};
+		DD81F9E12B2A8E8C00214790 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				DD81F9E22B2A8E9F00214790 /* NotificationListView.swift */,
+			);
+			path = Notification;
+			sourceTree = "<group>";
+		};
 		FD1B61062B267868004F1302 /* History */ = {
 			isa = PBXGroup;
 			children = (
 				FD1B61072B267879004F1302 /* HistoryListView.swift */,
+				4AFA90E82B27453200138B14 /* ShareSheet.swift */,
 			);
 			path = History;
 			sourceTree = "<group>";
@@ -137,6 +155,7 @@
 		FDB87D262AE4185400B9B6A5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				DD81F9E12B2A8E8C00214790 /* Notification */,
 				FD1B61062B267868004F1302 /* History */,
 				4A9E7BAA2B0CFC8C008A817D /* Map */,
 				FDB87D442AE4255D00B9B6A5 /* Support */,
@@ -184,6 +203,7 @@
 				FDB87D312AE4203C00B9B6A5 /* Appointment.swift */,
 				4A89B7BD2B0D285500257834 /*  UniqueMapItem.swift */,
 				FD1B610B2B2678EB004F1302 /* History.swift */,
+				4AFA90EA2B2746DC00138B14 /* HistoryDataPreparer.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -221,6 +241,7 @@
 			isa = PBXGroup;
 			children = (
 				FDB87D612AE5E78200B9B6A5 /* HelperFunction.swift */,
+				FD1B61112B267B76004F1302 /* TextToSpeech.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -244,6 +265,7 @@
 		FDC90BB92AD8D684005A9A1E /* MedWise */ = {
 			isa = PBXGroup;
 			children = (
+				FD1B61132B267D5A004F1302 /* Info.plist */,
 				FDB87D602AE5E76F00B9B6A5 /* Helper */,
 				FDB87D282AE4188E00B9B6A5 /* Database */,
 				FDB87D2A2AE41CFB00B9B6A5 /* Models */,
@@ -357,6 +379,7 @@
 				FDC90BBD2AD8D684005A9A1E /* ContentView.swift in Sources */,
 				FDB87D322AE4203C00B9B6A5 /* Appointment.swift in Sources */,
 				FDB87D382AE420E200B9B6A5 /* MedicationViewModel.swift in Sources */,
+				DD81F9E32B2A8E9F00214790 /* NotificationListView.swift in Sources */,
 				FDB87D342AE4205500B9B6A5 /* NotificationManager.swift in Sources */,
 				FDB87D3A2AE420FD00B9B6A5 /* AppointmentViewModel.swift in Sources */,
 				4A89B7BE2B0D285500257834 /*  UniqueMapItem.swift in Sources */,
@@ -368,12 +391,15 @@
 				FDB87D5D2AE59DC400B9B6A5 /* MedicationReminderView.swift in Sources */,
 				FDB87D3E2AE4250800B9B6A5 /* MedicationListView.swift in Sources */,
 				6E777A0C2AF6B00100FE9CE6 /* EditProfileView.swift in Sources */,
+				FD1B61122B267B76004F1302 /* TextToSpeech.swift in Sources */,
 				FDB87D2C2AE4200500B9B6A5 /* DatabaseHelper.swift in Sources */,
 				FDB87D552AE4762F00B9B6A5 /* MyTab.swift in Sources */,
+				4AFA90EB2B2746DC00138B14 /* HistoryDataPreparer.swift in Sources */,
 				FDB87D362AE420D400B9B6A5 /* ProfileViewModel.swift in Sources */,
 				4A89B7B82B0D002D00257834 /* LocationDetailsView.swift in Sources */,
 				FDB87D482AE4259600B9B6A5 /* ProfileView.swift in Sources */,
 				FDB87D4A2AE425B400B9B6A5 /* SupportView.swift in Sources */,
+				4AFA90E92B27453200138B14 /* ShareSheet.swift in Sources */,
 				6E7DA4732AE9FE94000696B9 /* ProfileRow.swift in Sources */,
 				FD2CF9BE2AED872C00CF6FBC /* NotificationViewModel.swift in Sources */,
 				FDB87D622AE5E78200B9B6A5 /* HelperFunction.swift in Sources */,
@@ -512,11 +538,16 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MedWise/Preview Content\"";
-				DEVELOPMENT_TEAM = 48DM8Z5V5V;
+
+				DEVELOPMENT_TEAM = F9C8S8VT8S;
+
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MedWise/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need your location to provide continuous location-based services.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location to provide location-based services.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We need access to the microphone for voice input.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "We need access to speech recognition for text-to-speech functionality.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -527,7 +558,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.group7.medwise.MedWise1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.group7.medwise.MedWise2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -543,11 +574,16 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MedWise/Preview Content\"";
-				DEVELOPMENT_TEAM = 48DM8Z5V5V;
+
+				DEVELOPMENT_TEAM = F9C8S8VT8S;
+
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MedWise/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need your location to provide continuous location-based services.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location to provide location-based services.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We need access to the microphone for voice input.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "We need access to speech recognition for text-to-speech functionality.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -558,7 +594,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.group7.medwise.MedWise1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.group7.medwise.MedWise2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

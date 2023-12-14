@@ -45,6 +45,9 @@ struct AppointmentListView: View {
             }
             .listStyle(PlainListStyle())
             .navigationBarTitle("Appointments")
+            .onAppear(perform: {
+                viewModel.fetchAppointments()
+            })
 //            .environment(\.sizeCategory, .accessibilityMedium)
     
 

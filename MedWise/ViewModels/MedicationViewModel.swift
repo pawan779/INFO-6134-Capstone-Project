@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVFAudio
 
 class MedicationListViewModel: ObservableObject {
 
@@ -93,7 +94,6 @@ class MedicationListViewModel: ObservableObject {
 
     func toggleAddMedication(){
         isPresented.toggle()
-
     }
 
 
@@ -102,7 +102,6 @@ class MedicationListViewModel: ObservableObject {
         reminderOption = reminderOptions[0]
         fetchMedications()
         checkAndUpdateMedicationStatus()
- 
         
 
     }
@@ -263,7 +262,101 @@ class MedicationListViewModel: ObservableObject {
         }.compactMap { $0 }
     }
     
+    func deleteAllMedicine() {
+        
+    }
+    
+    
+    
+//    for text to speech
+    
+    let textToSpeechManager = TextToSpeechManager()
+    
+    private var shouldStopSpeech = false
+    
+    
+    
+    func stopRecording() {
+        // Set shouldStopSpeech to true to indicate that speech should be stopped
+        shouldStopSpeech = true
+        // Stop the speech using AVSpeechSynthesizer's stopSpeaking method
+        textToSpeechManager.stopSpeaking()
+    }
+    
+    func readDescription() {
+
+        for medication in medications {
+            let medicineName = medication.medicineName
+            
+            // Reset shouldStopSpeech at the beginning of each iteration
+            shouldStopSpeech = false
+            
+            // Construct the initial speech description
+           
+            
+            for reminderTime in medication.reminderTime {
+                let time = reminderTime.time
+                let isTaken = reminderTime.isTaken
+                let medicationDate = reminderTime.takenDate
+                var speechDescription = "Medicine name:  \(medicineName)."
+                // Append to the speech description
+                if isTaken {
+                    speechDescription += " You have taken this medicine today at\(HelperFunction().formattedTime(medicationDate!))"
+                } 
+                else if reminderTime.isSkipped == true {
+                    speechDescription += " You have skipped this medicine"
+                }
+                else {
+                    speechDescription += " You have to take this medicine today at \(HelperFunction().formattedTime(time))."
+                }
+                
+                // Speak the current part of the description
+                textToSpeechManager.speak(text: speechDescription)
+                
+                // Check if shouldStopSpeech is true, and stop speech if needed
+                if shouldStopSpeech {
+                    textToSpeechManager.stopSpeaking()
+                    return
+                }
+                
+                // Introduce a pause after the statement
+                let pauseDuration: TimeInterval = 2.0 // Adjust the duration as needed
+                DispatchQueue.main.asyncAfter(deadline: .now() + pauseDuration) {
+                    // Check if shouldStopSpeech is true, and stop speech if needed
+                    if self.shouldStopSpeech {
+                        self.textToSpeechManager.stopSpeaking()
+                        return
+                    }
+                    
+                    // Continue reading the next part of the description
+                    self.textToSpeechManager.speak(text: "")
+                }
+                
+                // Introduce a pause between reminder times
+                let pauseDurationBetweenReminders: TimeInterval = 2.0 // Adjust the duration as needed
+                DispatchQueue.main.asyncAfter(deadline: .now() + pauseDurationBetweenReminders) {
+                    // Check if shouldStopSpeech is true, and stop speech if needed
+                    if self.shouldStopSpeech {
+                        self.textToSpeechManager.stopSpeaking()
+                        return
+                    }
+                    
+                    // Continue reading the next part of the description
+                    self.textToSpeechManager.speak(text: "")
+                }
+            }
+            
+            // Check if shouldStopSpeech is true, and stop speech if needed
+            if shouldStopSpeech {
+                textToSpeechManager.stopSpeaking()
+                return
+            }
+        }
+    }
+}
+    
     
     
 
-}
+
+

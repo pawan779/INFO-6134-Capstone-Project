@@ -35,12 +35,12 @@ struct EditProfileView: View {
     
     init(viewModel: ProfileViewModel) {
         self.viewModel = viewModel
-        _name = State(initialValue: viewModel.loadUserFromDatabase().name)
-        _email = State(initialValue: viewModel.loadUserFromDatabase().email ?? "" )
-        _phone = State(initialValue: viewModel.loadUserFromDatabase().phone ?? "")
-        _age = State(initialValue: viewModel.loadUserFromDatabase().age)
-        _weight = State(initialValue: viewModel.loadUserFromDatabase().weight)
-        _selectedGender = State(initialValue: Gender(rawValue: viewModel.loadUserFromDatabase().gender) ?? .male)
+        _name = State(initialValue: viewModel.user.name)
+        _email = State(initialValue: viewModel.user.email ?? "" )
+        _phone = State(initialValue: viewModel.user.phone ?? "")
+        _age = State(initialValue: viewModel.user.age)
+        _weight = State(initialValue: viewModel.user.weight)
+        _selectedGender = State(initialValue: Gender(rawValue: viewModel.user.gender) ?? .male)
     }
     
     func isNumericPhoneNumber(_ phone: String) -> Bool {

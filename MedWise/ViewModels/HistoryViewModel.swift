@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class HistoryViewModel: ObservableObject {
     @Published var groupedHistory: [[String: Any]] = []
@@ -14,32 +15,27 @@ class HistoryViewModel: ObservableObject {
     private var databaseHelper = DatabaseHelper.shared
     @Published var showSkippedMedicines: Bool = false
     
-    init(){
+    init() {
         fetchHistoryGroupedByDate()
-        
     }
     
     func fetchHistoryGroupedByDate() {
         let historyData = databaseHelper.fetchHistoryGroupedByDate()
         self.groupedHistory = historyData
         showData()
-        
     }
     
-    func showData(){
+    func showData() {
         filterSkippedData()
         history = showSkippedMedicines ? skippedData : groupedHistory
-        
     }
-    
     
     func toggleShowSkippedMedicines() {
         showSkippedMedicines.toggle()
         showData()
-        
     }
     
-    func filterSkippedData(){
+    func filterSkippedData() {
         let filteredData = groupedHistory.map { (entry: [String: Any]) -> [String: Any] in
             guard var history = entry["history"] as? [[String: Any]] else { return entry }
             history = history.filter { historyEntry in
@@ -50,5 +46,22 @@ class HistoryViewModel: ObservableObject {
             return filteredEntry
         }
         self.skippedData = filteredData
+    }
+    
+    // Function to create CSV data from history
+    func createCSV() -> String {
+        var csvString = ""
+        for entry in groupedHistory {
+            guard let histories = entry["history"] as? [[String: Any]] else { continue }
+            for history in histories {
+                let medicineName = history["medicineName"] as? String ?? ""
+                let date = (history["takenDate"] as? Date).map { HelperFunction().formattedDate($0) } ?? ""
+                let time = (history["takenDate"] as? Date).map { HelperFunction().formattedTime($0) } ?? ""
+                let status = (history["isTaken"] as? Bool == true) ? "Taken" : "Skipped"
+                let csvRow = "Medicine Name: \(medicineName),\nDate: \(date),\nTime: \(time),\nStatus: \(status)\n\n"
+                csvString.append(contentsOf: csvRow)
+            }
+        }
+        return csvString
     }
 }

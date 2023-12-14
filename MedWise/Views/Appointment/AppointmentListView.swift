@@ -11,14 +11,29 @@ struct AppointmentListView: View {
     @ObservedObject var viewModel: AppointmentViewModel
     @State private var showAddAppointmentForm = false
     let helper = HelperFunction()
-
+    @State private var showAlert = false
+    
     var body: some View {
         ZStack {
 //            Color(.systemGray6).edgesIgnoringSafeArea(.all)
             Color.customBackgroundColor
                             .edgesIgnoringSafeArea(.all)
 
-
+            // Shake Features
+            Text("")
+                .onShake {
+                    print("Device shaken!")
+                    showAlert = true
+                }
+                .alert(isPresented: $showAlert) {
+                    Alert(
+                        title: Text("Healthy Tips of the Day"),
+                        message: Text(viewModel.healthTips.randomElement() ?? "No tips available"),
+                        dismissButton: .default(Text("OK"))
+                    )
+                }
+            
+            
             List {
                 ForEach(viewModel.appointments) { appointment in
                     AppointmentRow(appointment: appointment, viewModel: viewModel, viewNotification: NotificationViewModel())

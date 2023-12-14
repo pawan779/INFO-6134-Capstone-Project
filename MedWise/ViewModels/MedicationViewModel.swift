@@ -68,7 +68,6 @@ class MedicationListViewModel: ObservableObject {
 
     func toggleAddMedication(){
         isPresented.toggle()
-
     }
 
 
@@ -236,6 +235,10 @@ class MedicationListViewModel: ObservableObject {
 
             return nil
         }.compactMap { $0 }
+    }
+    
+    func deleteAllMedicine() {
+        
     }
     
     

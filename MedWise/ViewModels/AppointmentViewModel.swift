@@ -32,4 +32,9 @@ class AppointmentViewModel: ObservableObject {
 
         fetchAppointments()
     }
+    
+    func deleteAllAppointments(){
+        databaseHelper.deleteAllAppointments()
+        fetchAppointments()
+    }
 }

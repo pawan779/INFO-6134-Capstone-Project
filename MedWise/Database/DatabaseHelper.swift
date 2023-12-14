@@ -9,6 +9,8 @@ import Foundation
 
 import SQLite
 
+import CoreData
+
 class DatabaseHelper {
     static let shared = DatabaseHelper()
 
@@ -198,7 +200,15 @@ class DatabaseHelper {
         }
     }
 
-
+    
+    func deleteUserProfile() {
+        do {
+            let delete = users.delete()
+            try db?.run(delete)
+        } catch {
+            print("Unable to delete user: \(error)")
+        }
+    }
     
     func deleteAllMedications() {
         do {
@@ -670,6 +680,15 @@ func deleteAppointment(appointmentId: UUID) {
         print("Unable to delete appointment: \(error)")
     }
 }
+    
+    //delete All Users
+        func deleteAllAppointments() {
+            do {
+                try db?.run(appointments.delete())
+            } catch {
+                print("Unable to delete all appointments: \(error)")
+            }
+        }
 
     
 

@@ -7,11 +7,12 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
 class ProfileViewModel: ObservableObject {
     
     var databaseHelper = DatabaseHelper.shared
-    var user: User
+    @Published var user: User
     
     func addUserToDatabase(name: String,email: String,phone: String, gender: String, age: String, weight: String) {
         databaseHelper.addUser(name: name,email:email,phone:phone ,gender: gender, age: age, weight: weight)
@@ -22,14 +23,12 @@ class ProfileViewModel: ObservableObject {
     }	
     
     // needs to be worked
-    func loadUserFromDatabase() -> User {
-           if let user = databaseHelper.getUser() {
-               self.user = user
-           }
-        
-        return user;
-        
-       }
+    func loadUserFromDatabase() {
+        if let user1 = databaseHelper.getUser() {
+       user = user1
+        }
+    }
+       
     
     func updateUserProfile(name: String, email: String?, phone: String?, gender: String, age: String, weight: String) {
             databaseHelper.updateUserProfile(id: user.id, name: name, email: email, phone: phone, gender: gender, age: age, weight: weight)
@@ -43,5 +42,10 @@ class ProfileViewModel: ObservableObject {
             
             loadUserFromDatabase()
         }
+    
+    func deleteUserProfile(){
+        databaseHelper.deleteUserProfile()
+        loadUserFromDatabase()
+    }
 }
     

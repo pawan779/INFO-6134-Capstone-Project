@@ -19,7 +19,7 @@ struct ProfileRow: View {
                       .foregroundColor(.blue)
                   Text(title)
                   Spacer()
-                  Text(value)
+                  Text(value == "2" ? "" : value == "String" ? "" : value)
                       .foregroundColor(.gray)
               }
     }

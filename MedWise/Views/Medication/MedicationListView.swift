@@ -90,6 +90,9 @@ struct MedicationListView: View {
                         .padding(.vertical,20)
 
                     }
+                    .onAppear(perform: {
+                        viewModel.fetchMedications()
+                    })
 
                     .sheet(isPresented: $viewModel.isPresented) {
                         AddMedicationView(viewModel:viewModel)

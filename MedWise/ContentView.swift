@@ -36,7 +36,7 @@ struct ContentView: View {
                        } else if tab == .appointment {
                            AppointmentListView(viewModel: AppointmentViewModel())
                        } else {
-                           SettingsView(viewModel: ProfileViewModel(user: User(id: 1, name: "String", gender: "String", age: "2", weight: "String")))
+                           SettingsView(viewModel: ProfileViewModel(user: User(id: 1, name: "String", gender: "String", age: "2", weight: "String")), appointmentViewModel: AppointmentViewModel(), id: 1)
                        }
                    }
                    .tag(tab)

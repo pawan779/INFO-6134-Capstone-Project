@@ -22,8 +22,8 @@ struct ProfileView: View {
     func deleteProfile() {
         
         print("deleted clicked !!")
-        print(viewModel.loadUserFromDatabase().id)
-        viewModel.deleteUser(id: viewModel.loadUserFromDatabase().id)
+        print(viewModel.user.id)
+        viewModel.deleteUser(id: viewModel.user.id)
         
         
     }
@@ -33,41 +33,21 @@ struct ProfileView: View {
         List {
             
             Section(header: Text("Profile Information")) {
-                ProfileRow(systemName: "person.circle.fill", title: "Name", value: viewModel.loadUserFromDatabase().name)
-                ProfileRow(systemName: "envelope.fill", title: "Email", value: viewModel.loadUserFromDatabase().email ?? "")
+                ProfileRow(systemName: "person.circle.fill", title: "Name", value: viewModel.user.name)
+                ProfileRow(systemName: "envelope.fill", title: "Email", value: viewModel.user.email ?? "")
                 ProfileRow(systemName: "phone.fill", title: "Phone", value:viewModel.user.phone ??  "")
             }
             
             Section(header: Text("Additional Information")) {
-                ProfileRow(systemName: "figure.dress.line.vertical.figure", title: "Gender", value: viewModel.loadUserFromDatabase().gender)
-                ProfileRow(systemName: "birthday.cake.fill", title: "Age", value: viewModel.loadUserFromDatabase().age)
-                ProfileRow(systemName: "scalemass.fill", title: "Weight (in kg)", value: viewModel.loadUserFromDatabase().weight)
+                ProfileRow(systemName: "figure.dress.line.vertical.figure", title: "Gender", value: viewModel.user.gender)
+                ProfileRow(systemName: "birthday.cake.fill", title: "Age", value: viewModel.user.age)
+                ProfileRow(systemName: "scalemass.fill", title: "Weight (in kg)", value: viewModel.user.weight)
                 
             }
-            
-            
-           
-            
-            
-            
-            
-//            VStack{
-//                Button(action: {
-//                    // Show the confirmation dialog when the button is tapped
-//                    isDeleteProfileAlertPresented = true
-//                }) {
-//                    Text("Delete Profile").font(.title3)
-//                        .padding()
-//                        .frame(minWidth: 0, maxWidth: .infinity)
-//                        .background(Color.red)
-//                        .cornerRadius(15)
-//                        .foregroundColor(.white)
-//             
-//                }
-//              
-//            }
-          
         }
+        .onAppear(perform: {
+            viewModel.loadUserFromDatabase()
+        })
         .listStyle(SidebarListStyle())
         .navigationTitle("Profile")
         .alert(isPresented: $isDeleteProfileAlertPresented) {

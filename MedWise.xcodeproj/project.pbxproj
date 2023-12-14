@@ -19,6 +19,7 @@
 		6E7DA4712AE9FE7D000696B9 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7DA4702AE9FE7D000696B9 /* SettingsView.swift */; };
 		6E7DA4732AE9FE94000696B9 /* ProfileRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7DA4722AE9FE94000696B9 /* ProfileRow.swift */; };
 		AE3C3C482AE9FAE200FCBF37 /* MedicationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3C3C472AE9FAE200FCBF37 /* MedicationRow.swift */; };
+		DD81F9E32B2A8E9F00214790 /* NotificationListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD81F9E22B2A8E9F00214790 /* NotificationListView.swift */; };
 		DDF5F02C2AF9C85A000D8F76 /* MedicationFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF5F02B2AF9C85A000D8F76 /* MedicationFilterView.swift */; };
 		FD1B61082B267879004F1302 /* HistoryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1B61072B267879004F1302 /* HistoryListView.swift */; };
 		FD1B610A2B2678C5004F1302 /* HistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1B61092B2678C5004F1302 /* HistoryViewModel.swift */; };
@@ -62,6 +63,7 @@
 		6E7DA4702AE9FE7D000696B9 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		6E7DA4722AE9FE94000696B9 /* ProfileRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRow.swift; sourceTree = "<group>"; };
 		AE3C3C472AE9FAE200FCBF37 /* MedicationRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicationRow.swift; sourceTree = "<group>"; };
+		DD81F9E22B2A8E9F00214790 /* NotificationListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationListView.swift; sourceTree = "<group>"; };
 		DDF5F02B2AF9C85A000D8F76 /* MedicationFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicationFilterView.swift; sourceTree = "<group>"; };
 		FD1B61072B267879004F1302 /* HistoryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryListView.swift; sourceTree = "<group>"; };
 		FD1B61092B2678C5004F1302 /* HistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewModel.swift; sourceTree = "<group>"; };
@@ -114,6 +116,14 @@
 			path = Map;
 			sourceTree = "<group>";
 		};
+		DD81F9E12B2A8E8C00214790 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				DD81F9E22B2A8E9F00214790 /* NotificationListView.swift */,
+			);
+			path = Notification;
+			sourceTree = "<group>";
+		};
 		FD1B61062B267868004F1302 /* History */ = {
 			isa = PBXGroup;
 			children = (
@@ -140,6 +150,7 @@
 		FDB87D262AE4185400B9B6A5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				DD81F9E12B2A8E8C00214790 /* Notification */,
 				FD1B61062B267868004F1302 /* History */,
 				4A9E7BAA2B0CFC8C008A817D /* Map */,
 				FDB87D442AE4255D00B9B6A5 /* Support */,
@@ -362,6 +373,7 @@
 				FDC90BBD2AD8D684005A9A1E /* ContentView.swift in Sources */,
 				FDB87D322AE4203C00B9B6A5 /* Appointment.swift in Sources */,
 				FDB87D382AE420E200B9B6A5 /* MedicationViewModel.swift in Sources */,
+				DD81F9E32B2A8E9F00214790 /* NotificationListView.swift in Sources */,
 				FDB87D342AE4205500B9B6A5 /* NotificationManager.swift in Sources */,
 				FDB87D3A2AE420FD00B9B6A5 /* AppointmentViewModel.swift in Sources */,
 				4A89B7BE2B0D285500257834 /*  UniqueMapItem.swift in Sources */,

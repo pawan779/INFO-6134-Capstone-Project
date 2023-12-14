@@ -6,11 +6,15 @@
 //
 
 import SwiftUI
+import MessageUI
 
 struct HistoryListView: View {
     
     @ObservedObject var viewModel = HistoryViewModel()
-    
+//    @State private var showMailView = false
+    @State private var showShareSheet = false
+//    @State private var showAlert = false
+//    
     var body: some View {
         
         
@@ -40,6 +44,24 @@ struct HistoryListView: View {
                                 
                             }
                         }
+                        Button(action: {
+                            self.showShareSheet = true
+                        }) {
+                            HStack {
+                                Image(systemName: "square.and.arrow.up")
+                                    .font(.title2)
+                                Text("Share History")
+                            }
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(Color.customBackgroundColor)
+                            .cornerRadius(8)
+                        }
+                        .sheet(isPresented: $showShareSheet, content: {
+                            ShareSheet(activityItems: [viewModel.createCSV()])
+                        })
+
+                     
                         
                         ScrollView
                         {

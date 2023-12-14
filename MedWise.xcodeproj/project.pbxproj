@@ -512,7 +512,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MedWise/Preview Content\"";
-				DEVELOPMENT_TEAM = AW49X54JND;
+				DEVELOPMENT_TEAM = 48DM8Z5V5V;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need your location to provide continuous location-based services.";
@@ -543,7 +543,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MedWise/Preview Content\"";
-				DEVELOPMENT_TEAM = AW49X54JND;
+				DEVELOPMENT_TEAM = 48DM8Z5V5V;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need your location to provide continuous location-based services.";

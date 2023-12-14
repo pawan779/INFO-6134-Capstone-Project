@@ -10,6 +10,8 @@ import SwiftUI
 struct HistoryListView: View {
     
     @ObservedObject var viewModel = HistoryViewModel()
+    @State private var showAlert = false
+    
     
     var body: some View {
         
@@ -20,6 +22,20 @@ struct HistoryListView: View {
                 ZStack{
                     Color.customBackgroundColor
                         .ignoresSafeArea()
+                    
+                    // Shake Features
+                    Text("")
+                        .onShake {
+                            print("Device shaken!")
+                            showAlert = true
+                        }
+                        .alert(isPresented: $showAlert) {
+                            Alert(
+                                title: Text("Healthy Tips of the Day"),
+                                message: Text(viewModel.healthTips.randomElement() ?? "No tips available"),
+                                dismissButton: .default(Text("OK"))
+                            )
+                        }
                     
                     VStack(alignment: .leading){
                         
